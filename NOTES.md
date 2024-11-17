@@ -17,9 +17,18 @@ Prime Ng:
             ],
 
 ## Routing
+1. Add routes to `app.routes` 
+    e.g.
+        export const routes: Routes = [
+    {
+        path: '',
+        component: HomeComponent
+    }};
 
+2. 
 
 ## Login
+https://youtu.be/nTWZB8bWAJE
 
 Init components:
 * ng g c components/login
