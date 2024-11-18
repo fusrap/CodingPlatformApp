@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { passwordMismatchValidator } from '../../shared/password-mismatch.directive';
+import { AuthService } from '../../services/auth.service';
+import { RegisterPostData } from '../../interfaces/auth';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-register',
@@ -22,6 +25,11 @@ import { passwordMismatchValidator } from '../../shared/password-mismatch.direct
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+
+  private registerService = inject(AuthService);
+  private messageService = inject(MessageService);
+  private router = inject(Router);
+
   registerForm = new FormGroup({
     fullName: new FormControl('', [Validators.required]),
     email: new FormControl('', [
@@ -34,7 +42,28 @@ export class RegisterComponent {
   }) 
 
   onRegister() {
-    console.log(this.registerForm.value)
+    const postData = {...this.registerForm.value}
+    delete postData.confirmPassword;
+    this.registerService.registerUser(postData as RegisterPostData).subscribe(
+      {
+        next: (response) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Succes',
+            detail: 'Din bruger er nu oprettet'
+          })
+          this.router.navigate(['login'])
+          console.log(response);
+        }, 
+        error: (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Uventet fejl, prøv igen'
+          })
+          console.log(err);
+        }
+      });
   }
 
   get fullName() {

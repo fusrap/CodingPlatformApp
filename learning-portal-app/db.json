@@ -1,3 +1,22 @@
 {
-    "users": []
+  "users": [
+    {
+      "fullName": "hjkh",
+      "email": "avs@kj.kl",
+      "password": "123",
+      "id": 1
+    },
+    {
+      "fullName": "fhgfhg",
+      "email": "fghfh@hjkh.com",
+      "password": "123",
+      "id": 2
+    },
+    {
+      "fullName": "hkjh",
+      "email": "hjkh@hjkhk.dk",
+      "password": "123",
+      "id": 3
+    }
+  ]
 }
