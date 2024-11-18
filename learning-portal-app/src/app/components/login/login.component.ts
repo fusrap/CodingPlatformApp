@@ -27,7 +27,7 @@ export class LoginComponent {
   private router = inject(Router)
   private messageService = inject(MessageService)
 
-  invalidUSerLogin:boolean = false
+  invalidUSerLogin: boolean = false
 
   login = {
     email: '',
@@ -35,26 +35,30 @@ export class LoginComponent {
   }
 
   onLogin() {
-    const {email,password} = this.login;
-    this.authService.getUserDetails(email,password).subscribe({
-      next: response => {
-        console.log('response: '+response)
-        if(response.length >= 1) {
-          sessionStorage.setItem('email',email)
-          this.router.navigate(['home'])
-          this.invalidUSerLogin = false
+    const { email, password } = this.login;
+
+    this.authService.getUserDetails(email, password).subscribe({
+      next: (response) => {
+        console.log('Response:', response); 
+
+        if (response.length >= 1) { 
+          const user = response[0]; 
+          sessionStorage.setItem('email', user.email);
+          sessionStorage.setItem('role', user.role);
+          this.router.navigate(['home']);
+          this.invalidUSerLogin = false;
         } else {
-          this.invalidUSerLogin = true
-        }     
-      },  
-      error: () => {
+          this.invalidUSerLogin = true;
+        }
+      },
+      error: (error) => {
+        console.error('Error:', error);
         this.messageService.add({
           severity: 'error',
           summary: 'Fejl',
-          detail: ' Noget gik galt, prøv igen'
-        })
-      } 
-    })
-    console.log(this.login)
+          detail: 'Noget gik galt, prøv igen',
+        });
+      },
+    });
   }
 }

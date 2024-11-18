@@ -10,16 +10,35 @@ export class AuthService {
 
   private baseUrl = 'http://localhost:3000'
 
-  constructor(private http: HttpClient) {  }
+  constructor(private http: HttpClient) { }
 
 
   registerUser(postData: RegisterPostData) {
-      return this.http.post(`${this.baseUrl}/users`, postData)
+    postData.role = 'student';
+    return this.http.post(`${this.baseUrl}/users`, postData)
   }
 
   getUserDetails(email: string, password: string): Observable<User[]> {
-    return this.http.get<User[]>(
-      `${this.baseUrl}/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
-    );
+    const url = `${this.baseUrl}/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+    console.log('Request URL:', url);
+    return this.http.get<User[]>(url);
+  }
+   
+
+  saveUserSession(user: User) {
+    sessionStorage.setItem('email', user.email);
+    sessionStorage.setItem('role', user.role);
+  }
+
+  getUserRole(): string | null {
+    return sessionStorage.getItem('role');
+  }
+
+  isLoggedIn(): boolean {
+    return !!sessionStorage.getItem('email');
+  }
+
+  logout() {
+    sessionStorage.clear();
   }
 }
