@@ -26,7 +26,7 @@
                     }
             </div>
 				<div class="field">
-					<label for="Password"></label>
+					<label for="Password">Adgangskode</label>
                     <p-password 
                         [(ngModel)]="login.password"
                         [feedback]="false"
@@ -41,6 +41,11 @@
                             <small class="block p-error">Indtast password</small>
                         }
 				</div>
+                @if (invalidUSerLogin) {                 
+                    <div class="m-2">
+                        <small class="block p-error">Forkert email eller adgangskode</small>
+                    </div>
+                }
                 <p-button
                 label="Log ind"
                 styleClass="w-full"

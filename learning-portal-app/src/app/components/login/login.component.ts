@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
+import { AuthService } from '../../services/auth.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -21,12 +23,38 @@ import { PasswordModule } from 'primeng/password';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  private authService = inject(AuthService)
+  private router = inject(Router)
+  private messageService = inject(MessageService)
+
+  invalidUSerLogin:boolean = false
+
   login = {
     email: '',
     password: ''
   }
 
   onLogin() {
+    const {email,password} = this.login;
+    this.authService.getUserDetails(email,password).subscribe({
+      next: response => {
+        console.log('response: '+response)
+        if(response.length >= 1) {
+          sessionStorage.setItem('email',email)
+          this.router.navigate(['home'])
+          this.invalidUSerLogin = false
+        } else {
+          this.invalidUSerLogin = true
+        }     
+      },  
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Fejl',
+          detail: ' Noget gik galt, prøv igen'
+        })
+      } 
+    })
     console.log(this.login)
   }
 }
