@@ -25,7 +25,8 @@ Prime Ng:
         component: HomeComponent
     }};
 
-2. 
+2. Add `<router-outlet></router-outlet>` to where the route should be loaded
+    the case `app.component.htlm`
 
 ## Login
 https://youtu.be/nTWZB8bWAJE
