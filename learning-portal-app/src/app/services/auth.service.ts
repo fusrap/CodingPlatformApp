@@ -1,16 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { RegisterPostData, User } from '../interfaces/auth';
 import { Observable } from 'rxjs';
+import { BASE_URL } from '../app.tokens';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private baseUrl = 'http://localhost:3000'
-
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    @Inject(BASE_URL) private baseUrl: string
+  ) {}
 
 
   registerUser(postData: RegisterPostData) {
@@ -20,7 +22,6 @@ export class AuthService {
 
   getUserDetails(email: string, password: string): Observable<User[]> {
     const url = `${this.baseUrl}/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
-    console.log('Request URL:', url);
     return this.http.get<User[]>(url);
   }
    

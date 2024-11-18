@@ -9,7 +9,7 @@
                     is="fullName"
                     formControlName="fullName"
             ></div>
-            @if (email.invalid && (email.dirty || email.touched)) {
+            @if (fullName.invalid && (fullName.dirty || fullName.touched)) {
                 <small class="block p-error">Indtast dit fulde navn</small>
             }
             <div class="field">

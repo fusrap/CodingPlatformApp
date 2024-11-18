@@ -37,6 +37,83 @@
       "password": "123",
       "role": "student",
       "id": 6
+    },
+    {
+      "fullName": "Alice Johnson",
+      "email": "alice.johnson@example.com",
+      "password": "123",
+      "role": "student",
+      "id": 7
+    },
+    {
+      "fullName": "Bob Smith",
+      "email": "bob.smith@example.com",
+      "password": "123",
+      "role": "admin",
+      "id": 8
+    },
+    {
+      "fullName": "Charlie Brown",
+      "email": "charlie.brown@example.com",
+      "password": "123",
+      "role": "student",
+      "id": 9
+    },
+    {
+      "fullName": "Daisy Ridley",
+      "email": "daisy.ridley@example.com",
+      "password": "123",
+      "role": "student",
+      "id": 10
+    },
+    {
+      "fullName": "Eve White",
+      "email": "eve.white@example.com",
+      "password": "123",
+      "role": "teacher",
+      "id": 11
+    },
+    {
+      "fullName": "Frank Black",
+      "email": "frank.black@example.com",
+      "password": "123",
+      "role": "teacher",
+      "id": 12
+    },
+    {
+      "fullName": "Grace Green",
+      "email": "grace.green@example.com",
+      "password": "123",
+      "role": "student",
+      "id": 13
+    },
+    {
+      "fullName": "Hannah Blue",
+      "email": "hannah.blue@example.com",
+      "password": "123",
+      "role": "admin",
+      "id": 14
+    },
+    {
+      "fullName": "Ian Yellow",
+      "email": "ian.yellow@example.com",
+      "password": "123",
+      "role": "student",
+      "id": 15
+    },
+    {
+      "fullName": "Jack Red",
+      "email": "jack.red@example.com",
+      "password": "123",
+      "role": "student",
+      "id": 16
+    },
+    {
+      "fullName": "Admin ",
+      "email": "admin@admin.dk",
+      "password": "123",
+      "role": "teacher",
+      "id": 17
     }
   ]
 }
