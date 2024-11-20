@@ -36,22 +36,22 @@ export class LoginComponent {
 
   onLogin() {
     const { email, password } = this.login;
-
-    this.authService.getUserDetails(email, password).subscribe({
-      next: (response) => {
-        console.log('Response:', response); 
-
-        if (response.length >= 1) { 
-          const user = response[0]; 
-          sessionStorage.setItem('email', user.email);
-          sessionStorage.setItem('role', user.role);
+  
+    this.authService.login(email, password).subscribe({
+      next: (success: boolean) => {
+        if (success) {
           this.router.navigate(['home']);
           this.invalidUSerLogin = false;
         } else {
           this.invalidUSerLogin = true;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Fejl',
+            detail: 'Ugyldigt brugernavn eller adgangskode',
+          });
         }
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error:', error);
         this.messageService.add({
           severity: 'error',
@@ -61,4 +61,4 @@ export class LoginComponent {
       },
     });
   }
-}
+}  

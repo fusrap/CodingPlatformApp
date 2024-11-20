@@ -1,4 +1,10 @@
 <p-menubar [model]="items">
-    <ng-template pTemplate="start">
-    </ng-template>
+	<ng-template pTemplate="end">
+		@if (userRole) {
+		<div>
+			<span>{{ userRole }}</span>
+		</div>
+		}
+
+	</ng-template>
 </p-menubar>

@@ -27,6 +27,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class HomeComponent {
 
+  roleId = -1
+
   constructor() {
     this.userServcie.getAllUsers().subscribe({
       next: (user) => {
@@ -36,10 +38,9 @@ export class HomeComponent {
   }
 
   ngOnInit() {
-    this.isTeacher = this.authService.getUserRole() == 'teacher';
+    const roleString = sessionStorage.getItem('role'); 
+    this.roleId = roleString ? parseInt(roleString, 10) : -1; 
   }
-
-  isTeacher = false;
 
   private userServcie = inject(UserService)
   private authService = inject(AuthService)

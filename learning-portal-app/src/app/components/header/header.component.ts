@@ -16,11 +16,15 @@ export class HeaderComponent {
 
   private router = inject(Router)
 
+  userRole: string | null = null
+  
   items: any[] = []
   
   constructor() {}
 
   ngOnInit() {
+    this.userRole = sessionStorage.getItem('role');
+    console.log('User Role:', this.userRole);
     this.items = [
       {
         label: 'Home',
