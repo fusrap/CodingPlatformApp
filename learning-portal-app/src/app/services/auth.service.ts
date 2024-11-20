@@ -16,8 +16,7 @@ export class AuthService {
 
 
   registerUser(postData: RegisterPostData) {
-    postData.role = 'student';
-    return this.http.post(`${this.baseUrl}/users`, postData)
+    return this.http.post(`${this.baseUrl}/register`, postData)
   }
 
   getUserDetails(email: string, password: string): Observable<User[]> {
