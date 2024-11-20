@@ -11,6 +11,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     provideAnimations(),
-    { provide: BASE_URL, useValue: 'http://localhost:3000' }, 
+    //{ provide: BASE_URL, useValue: 'http://localhost:3000' }, 
+    { provide: BASE_URL, useValue: 'http://localhost:8000' }, 
   ]
 };
