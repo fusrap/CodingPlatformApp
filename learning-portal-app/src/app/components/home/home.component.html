@@ -39,6 +39,15 @@
 
 <div class="flex justify-content-center align-items-center">
     <div class="col-10 p-2">
+        @if (roleId > 0) {
+        <div class="m-4">
+            <p-button 
+            routerLink="/create-course" 
+            severity="success">
+                Nyt kursus
+            </p-button>
+        </div>
+        }
         <p-card header="Kurser">
             <p-table
                 [value]="users"

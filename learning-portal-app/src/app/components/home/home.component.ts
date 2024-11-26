@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { HeaderComponent } from '../header/header.component';
 import { ToolbarModule } from 'primeng/toolbar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -11,6 +11,7 @@ import { TableModule } from 'primeng/table';
 import { User } from '../../interfaces/auth';
 import { CardModule } from 'primeng/card';
 import { AuthService } from '../../services/auth.service';
+import { PrimeNGConfig } from 'primeng/api';
 
 
 @Component({
@@ -24,27 +25,13 @@ import { AuthService } from '../../services/auth.service';
     TableModule,
     CardModule,
     ButtonModule,
-    RippleModule
+    RippleModule,
+    RouterModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-
-  roleId = -1
-
-  constructor() {
-    this.userServcie.getAllUsers().subscribe({
-      next: (user) => {
-        this.users = user
-      }
-    })
-  }
-
-  ngOnInit() {
-    const roleString = sessionStorage.getItem('role'); 
-    this.roleId = roleString ? parseInt(roleString, 10) : -1; 
-  }
 
   private userServcie = inject(UserService)
   private authService = inject(AuthService)
@@ -52,9 +39,22 @@ export class HomeComponent {
 
 
   users: User[] = []; 
+  roleId = -1
 
-  logout() {
-    sessionStorage.clear();
-    this.router.navigate(['login'])
+  constructor(private primengConfig: PrimeNGConfig) {
+    //this.userServcie.getAllUsers().subscribe({
+     // next: (user) => {
+      //  this.users = user
+    //  }
+   // })
   }
+
+  ngOnInit() {
+    const roleString = sessionStorage.getItem('role'); 
+    this.roleId = roleString ? parseInt(roleString, 10) : -1; 
+    this.primengConfig.ripple = true; 
+  }
+
+
+
 }

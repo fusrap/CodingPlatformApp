@@ -1,0 +1,29 @@
+<app-header></app-header>
+<div class="form-container flex flex-column justify-content-center align-items-stretch">
+    <div class="mb-3">
+        <button 
+        pButton 
+        type="button" 
+        class="p-button-secondary" 
+        label="Abryd" 
+        [routerLink]="['/home']"
+        ></button>
+    </div>
+    <p-card 
+    header="Opret Kursus" 
+    [style]="{ width: '100%', minWidth: '600px' }">
+        <form [formGroup]="courseForm" (ngSubmit)="onCreateCourse()">
+            <div class="field">
+                <label for="courseTitle">Titel</label>
+                <input 
+                pInputText
+                is="courseTitle"
+                class="w-full"
+                formControlName="courseTitle"
+            ></div>
+            @if (courseTitle.invalid && (courseTitle.dirty || courseTitle.touched)) {
+                <small class="block p-error">Indtast kursustitel</small>
+            }
+        </form>
+    </p-card>
+</div>
