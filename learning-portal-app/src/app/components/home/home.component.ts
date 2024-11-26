@@ -4,6 +4,8 @@ import { HeaderComponent } from '../header/header.component';
 import { ToolbarModule } from 'primeng/toolbar';
 import { InputTextModule } from 'primeng/inputtext';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
 import { UserService } from '../../services/user.service';
 import { TableModule } from 'primeng/table';
 import { User } from '../../interfaces/auth';
@@ -21,6 +23,8 @@ import { AuthService } from '../../services/auth.service';
     ScrollPanelModule,
     TableModule,
     CardModule,
+    ButtonModule,
+    RippleModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
