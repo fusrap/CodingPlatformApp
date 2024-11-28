@@ -1,26 +1,28 @@
 import {
   AngleDownIcon,
-  AngleRightIcon,
+  AngleRightIcon
+} from "./chunk-AXXH4R3Q.js";
+import {
   Tooltip,
   TooltipModule
-} from "./chunk-ASOZUPFF.js";
-import {
-  BaseIcon
-} from "./chunk-QYV2J4BL.js";
-import {
-  Ripple,
-  RippleModule
-} from "./chunk-XZYLJHLB.js";
-import {
-  DomHandler
-} from "./chunk-4VBMWFH7.js";
+} from "./chunk-4O2YTWRY.js";
 import {
   RouterLink,
   RouterLinkActive,
   RouterModule
-} from "./chunk-6T6NGFWZ.js";
-import "./chunk-2PMDF5EB.js";
-import "./chunk-C3CVGUPZ.js";
+} from "./chunk-3EIFOFZV.js";
+import "./chunk-LLLEQC27.js";
+import "./chunk-753D2EG3.js";
+import {
+  Ripple,
+  RippleModule
+} from "./chunk-AWKP7OGJ.js";
+import {
+  BaseIcon
+} from "./chunk-VNGP2QCJ.js";
+import {
+  DomHandler
+} from "./chunk-BUGEQH7Q.js";
 import {
   CommonModule,
   DOCUMENT,
@@ -30,7 +32,7 @@ import {
   NgStyle,
   NgTemplateOutlet,
   isPlatformBrowser
-} from "./chunk-ZVU7VLIB.js";
+} from "./chunk-OZ3E3JH7.js";
 import {
   ObjectUtils,
   PrimeNGConfig,
@@ -38,7 +40,7 @@ import {
   SharedModule,
   UniqueComponentId,
   zindexutils
-} from "./chunk-VXKI3JOT.js";
+} from "./chunk-UWTFXPYB.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -103,19 +105,19 @@ import {
   ɵɵtextInterpolate,
   ɵɵtextInterpolate1,
   ɵɵviewQuery
-} from "./chunk-BVPYTP4N.js";
+} from "./chunk-43623GOX.js";
 import {
   Subject,
   debounce,
   filter,
   interval
-} from "./chunk-7TIWL4T5.js";
+} from "./chunk-ZSY7TSMJ.js";
 import {
   __spreadProps,
   __spreadValues
 } from "./chunk-WDMUDEB6.js";
 
-// ../node_modules/primeng/fesm2022/primeng-icons-bars.mjs
+// node_modules/primeng/fesm2022/primeng-icons-bars.mjs
 var BarsIcon = class _BarsIcon extends BaseIcon {
   static ɵfac = /* @__PURE__ */ (() => {
     let ɵBarsIcon_BaseFactory;
@@ -167,7 +169,7 @@ var BarsIcon = class _BarsIcon extends BaseIcon {
   }], null, null);
 })();
 
-// ../node_modules/primeng/fesm2022/primeng-menubar.mjs
+// node_modules/primeng/fesm2022/primeng-menubar.mjs
 var _c0 = ["menubar"];
 var _c1 = (a0, a1) => ({
   "p-submenu-list": a0,

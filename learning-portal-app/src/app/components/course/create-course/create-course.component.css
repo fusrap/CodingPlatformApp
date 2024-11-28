@@ -7,3 +7,13 @@
 form {
     margin: 5%;
 }
+
+.tooltip-icon {
+    margin-left: 8px;
+    padding-bottom: 2px;
+    cursor: pointer;
+    color: #0099ff83;
+    font-size: 1.2rem; 
+    vertical-align: middle; 
+}
+

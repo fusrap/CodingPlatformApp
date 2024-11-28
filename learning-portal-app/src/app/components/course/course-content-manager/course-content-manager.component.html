@@ -1,0 +1,51 @@
+<ng-container #dynamicContainer></ng-container>
+@if(elements.length == 0) {
+    <div class="flex align-items-center">
+        <h3>Tilføj elementer til dit kursus</h3>
+    </div>
+} @else {
+    <div class="flex align-items-center">
+        <h3>Tilføj nyt elementer</h3>
+    </div>
+}
+
+  
+  <div class="flex align-items-center gap-3" style="display: flex; width: 100%;">
+    <div style="flex: 5;">
+      <p-dropdown 
+          [options]="elementTypes"
+          [(ngModel)]="selectedElementType"
+          optionLabel="name"
+          class="w-full"
+          styleClass="w-full"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          placeholder="Vælg et element">
+              <ng-template pTemplate="selectedItem" let-selectedOption>
+                  <div class="flex align-items-center gap-2">
+                      <div>{{ selectedOption.name }}</div>
+                  </div>
+              </ng-template>
+      </p-dropdown>
+    </div>
+    <div style="flex: 3;">
+      <button 
+          pButton 
+          label="Tilføj"
+          icon="pi pi-plus"
+          class="p-button-success w-full"
+          (click)="addElement()"
+          [disabled]="!selectedElementType">
+      </button>
+    </div>
+    <div style="flex: 2;">
+      <button 
+          pButton 
+          label="Hjælp"
+          icon="pi pi-question-circle"
+          class="p-button-secondary w-full">
+      </button>
+    </div>
+  </div>
+  
