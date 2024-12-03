@@ -5,6 +5,7 @@ import { HomeComponent } from './components/home/home.component';
 import { authGuard } from './guards/auth.guard';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 import { CreateCourseComponent } from './components/course/create-course/create-course.component';
+import { CreateJeopardyComponent } from './components/games/jeopardy/create-jeopardy/create-jeopardy.component';
 
 export const routes: Routes = [
     {
@@ -29,6 +30,10 @@ export const routes: Routes = [
         path: 'create-course',
         component: CreateCourseComponent,
         canActivate: [authGuard],
+    },
+    {
+        path: 'create-jeopardy',
+        component: CreateJeopardyComponent,
     },
     {
         path: 'unauthorized',
