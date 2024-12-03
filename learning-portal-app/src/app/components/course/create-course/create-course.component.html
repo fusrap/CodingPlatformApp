@@ -64,10 +64,12 @@
               
                 <ng-template pTemplate="footer">
                     <div class="flex gap-3 mt-1">
-                        <p-button label="Gem kursus"
+                        <p-button 
+                        label="Gem kursus"
                         severity="success"
                         class="w-full"
                         styleClass="w-full"
+                        [loading]="loading" 
                         (onClick)="saveCourse()" 
                         />
                         <p-button 

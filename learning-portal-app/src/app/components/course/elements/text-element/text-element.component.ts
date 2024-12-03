@@ -3,6 +3,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+
 @Component({
   selector: 'app-text-element',
   imports: [
@@ -15,23 +16,23 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
 })
 export class TextElementComponent {
-  @Input() id!: number; // Receive the ID from the manager
-  @Input() text: string = ''; // Text content of the element
-  @Output() textChange = new EventEmitter<string>(); // Emit changes to text
-  @Output() onDelete = new EventEmitter<void>(); // Emit delete event
+  @Input() id!: number;
+  @Input() text: string = '';
+  @Input() isEditing: boolean = true;
 
-  isEditing: boolean = true; // Default to edit mode
+  @Output() textChange = new EventEmitter<string>();
+  @Output() editModeChange = new EventEmitter<boolean>();
+  @Output() onDelete = new EventEmitter<void>();
 
   toggleMode() {
     this.isEditing = !this.isEditing;
-
-    // Emit the updated text when leaving edit mode
+    this.editModeChange.emit(this.isEditing);
     if (!this.isEditing) {
       this.textChange.emit(this.text);
     }
   }
 
   onDeleteClick() {
-    this.onDelete.emit(); // Notify the manager
+    this.onDelete.emit(); 
   }
 }

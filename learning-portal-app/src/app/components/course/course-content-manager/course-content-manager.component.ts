@@ -8,13 +8,16 @@ import {
   ViewContainerRef,
   AfterViewInit,
   SimpleChanges,
+  ChangeDetectorRef,
+  Type,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonGroupModule } from 'primeng/buttongroup';
 import { TextElementComponent } from '../elements/text-element/text-element.component';
-import { ContentElement, TextElement } from '../../../interfaces/content-element';
+import { ContentElement, ContentType, InputElement, TextElement } from '../../../interfaces/content-element';
+import { InputElementComponent } from '../elements/input-element/input-element.component';
 
 @Component({
   selector: 'app-course-content-manager',
@@ -24,17 +27,20 @@ import { ContentElement, TextElement } from '../../../interfaces/content-element
   styleUrls: ['./course-content-manager.component.css'],
 })
 export class CourseContentManagerComponent implements OnInit, AfterViewInit {
-  @Input() elements: ContentElement[] = []; 
-  @Output() elementsChange = new EventEmitter<ContentElement[]>(); 
+  @Input() elements: ContentElement[] = [];
+  @Output() elementsChange = new EventEmitter<ContentElement[]>();
   @ViewChild('dynamicContainer', { read: ViewContainerRef, static: false })
   container!: ViewContainerRef;
 
   elementTypes = [
-    { name: 'TextArea', type: 'TextArea', value: TextElementComponent },
+    { name: 'TextArea', type: ContentType.Text, value: TextElementComponent },
+    { name: 'Input', type: ContentType.Input, value: InputElementComponent },
   ];
-  selectedElementType: any | undefined;
 
+  selectedElementType: any | undefined;
   private isContainerReady = false;
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     console.log('Initialized CourseContentManagerComponent');
@@ -53,99 +59,165 @@ export class CourseContentManagerComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Adds a new element to the dynamic container
+   */
   addElement() {
     if (this.selectedElementType && this.isContainerReady) {
-      const componentRef = this.container.createComponent(
-        this.selectedElementType.value
-      );
-  
-      const instance = componentRef.instance as TextElementComponent;
-  
-      const newElement: TextElement = {
-        id: Date.now(),
-        text: '',
-      };
-  
+      const componentType = this.selectedElementType.value as Type<TextElementComponent | InputElementComponent>;
+      const componentRef = this.container.createComponent(componentType);
+      const instance = componentRef.instance as any;
+
+      const newElement = this.createElement(this.selectedElementType.type);
+      newElement.componentRef = componentRef;
+
+      // Assign properties to the instance and bind events
       instance.id = newElement.id;
-      instance.textChange.subscribe((newText: string) => {
-        newElement.text = newText; // Update text in the elements array
+      instance.isEditing = newElement.isEditing;
+
+      if (this.selectedElementType.type === ContentType.Text) {
+        instance.text = (newElement as TextElement).text;
+        instance.textChange.subscribe((newText: string) => {
+          (newElement as TextElement).text = newText;
+        });
+      } else if (this.selectedElementType.type === ContentType.Input) {
+        instance.label = (newElement as InputElement).label;
+        instance.answer = (newElement as InputElement).answer;
+        instance.labelChange.subscribe((newLabel: string) => {
+          (newElement as InputElement).label = newLabel;
+        });
+        instance.answerChange.subscribe((newAnswer: string) => {
+          (newElement as InputElement).answer = newAnswer;
+        });
+      }
+
+      instance.editModeChange.subscribe((isEditing: boolean) => {
+        newElement.isEditing = isEditing;
       });
+
       instance.onDelete.subscribe(() => {
-        this.removeElement(newElement.id); // Handle delete via event emitter
+        this.removeElement(newElement.id);
       });
-  
+
       this.elements.push(newElement);
-      this.elementsChange.emit(this.elements);
+      this.elementsChange.emit([...this.elements]);
+      this.cdr.detectChanges(); // Trigger change detection to ensure UI reflects updates
+
       console.log('Added element:', newElement);
     } else {
-      console.error(
-        'Cannot add element. Either selectedElementType or container is not ready.'
-      );
+      console.error('Cannot add element. Either selectedElementType or container is not ready.');
     }
   }
-  
-  
 
+  /**
+   * Removes an element by ID
+   */
   removeElement(id: number) {
-    // Find the element index
     const elementIndex = this.elements.findIndex((el) => el.id === id);
+
     if (elementIndex > -1) {
-      // Remove the element from the array
       const [removedElement] = this.elements.splice(elementIndex, 1);
-  
-      // Destroy the associated component if it exists
+
       if (removedElement.componentRef) {
         removedElement.componentRef.destroy();
         console.log(`Component with ID ${id} destroyed.`);
       } else {
         console.warn(`No componentRef found for element with ID ${id}.`);
       }
-  
-      // Emit the updated list of elements
-      this.elementsChange.emit([...this.elements]); // Spread operator to ensure Angular detects the change
+
+      this.elementsChange.emit([...this.elements]);
+      this.cdr.detectChanges(); // Trigger change detection
       console.log('Removed element with ID:', id, 'Updated elements:', this.elements);
     } else {
       console.error(`Element with ID ${id} not found.`);
     }
   }
-  
 
+  /**
+   * Rebuilds the elements from the current elements list
+   */
   private rebuildElements() {
     if (!this.isContainerReady || !this.container) {
       console.error('Container is not ready for rebuilding elements.');
       return;
     }
-  
+
     this.container.clear();
-  
+
     for (const element of this.elements) {
-      // Ensure the element is of type TextElement
-      if ((element as TextElement).text !== undefined) {
-        const textElement = element as TextElement;
-  
-        // Create the TextElementComponent
-        const componentRef = this.container.createComponent(TextElementComponent);
-        const instance = componentRef.instance as TextElementComponent;
-  
-        // Restore the properties
-        instance.id = textElement.id;
-        instance.text = textElement.text;
-  
-        // Listen to the textChange and onDelete events
-        instance.textChange.subscribe((newText: string) => {
-          textElement.text = newText; // Update the elements array when text changes
-        });
-        instance.onDelete.subscribe(() => {
-          this.removeElement(textElement.id); // Remove element on delete
-        });
-  
-        console.log('Rebuilt TextElement component:', instance);
+      let componentType: Type<any>;
+
+      if (this.isTextElement(element)) {
+        componentType = TextElementComponent;
+      } else if (this.isInputElement(element)) {
+        componentType = InputElementComponent;
       } else {
-        console.warn('Unknown element type:', element);
+        console.error('Unknown element type:', element.type);
+        continue;
       }
+
+      const componentRef = this.container.createComponent(componentType);
+      const instance = componentRef.instance as any;
+
+      element.componentRef = componentRef;
+
+      instance.id = element.id;
+      instance.isEditing = element.isEditing; // Ensure editing state persists
+
+      if (this.isTextElement(element)) {
+        const textElement = element as TextElement;
+        instance.text = textElement.text;
+        instance.textChange.subscribe((newText: string) => {
+          textElement.text = newText;
+        });
+      } else if (this.isInputElement(element)) {
+        const inputElement = element as InputElement;
+        instance.label = inputElement.label;
+        instance.answer = inputElement.answer;
+        instance.labelChange.subscribe((newLabel: string) => {
+          inputElement.label = newLabel;
+        });
+        instance.answerChange.subscribe((newAnswer: string) => {
+          inputElement.answer = newAnswer;
+        });
+      }
+
+      instance.editModeChange.subscribe((isEditing: boolean) => {
+        element.isEditing = isEditing;
+      });
+
+      instance.onDelete.subscribe(() => {
+        this.removeElement(element.id);
+      });
     }
-  
+
     console.log('Rebuilt all elements.');
   }
-  
+
+  /**
+   * Creates a new element object
+   */
+  private createElement(type: ContentType): ContentElement {
+    const baseElement: ContentElement = {
+      id: Date.now(),
+      isEditing: true, // Default to editable when first created
+      type, // Using ContentType enum
+    };
+
+    if (type === ContentType.Text) {
+      return { ...baseElement, text: '' } as TextElement;
+    } else if (type === ContentType.Input) {
+      return { ...baseElement, label: '', answer: '' } as InputElement;
+    }
+
+    throw new Error(`Unknown element type: ${type}`);
+  }
+
+  private isTextElement(element: ContentElement): element is TextElement {
+    return element.type === ContentType.Text;
+  }
+
+  private isInputElement(element: ContentElement): element is InputElement {
+    return element.type === ContentType.Input;
+  }
 }

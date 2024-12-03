@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { BASE_URL } from '../app.tokens';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, of, throwError } from 'rxjs';
 import { Course } from '../interfaces/course';
 
 @Injectable({
@@ -17,4 +17,16 @@ export class CourseService {
     const url = `${this.baseUrl}/course`;
     return this.http.post<Course>(url, course); 
   }
+
+  getCourses(): Observable<Course[]> {
+    const url = `${this.baseUrl}/course`;
+    return this.http.get<{ courses: Course[] }>(url).pipe(
+        map(response => response.courses), 
+        catchError(err => {
+            console.error('Error fetching courses:', err);
+            return of([]); 
+        })
+    );
+}
+
 }

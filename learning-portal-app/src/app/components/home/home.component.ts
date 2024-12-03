@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { HeaderComponent } from '../header/header.component';
 import { ToolbarModule } from 'primeng/toolbar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -12,7 +12,8 @@ import { User } from '../../interfaces/auth';
 import { CardModule } from 'primeng/card';
 import { AuthService } from '../../services/auth.service';
 import { PrimeNGConfig } from 'primeng/api';
-
+import { CourseService } from '../../services/course.service';
+import { Course } from '../../interfaces/course';
 
 @Component({
   selector: 'app-home',
@@ -26,35 +27,41 @@ import { PrimeNGConfig } from 'primeng/api';
     CardModule,
     ButtonModule,
     RippleModule,
-    RouterModule
+    RouterModule,
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['./home.component.css'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  private userService = inject(UserService);
+  private courseService = inject(CourseService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private primengConfig = inject(PrimeNGConfig);
 
-  private userServcie = inject(UserService)
-  private authService = inject(AuthService)
-  private router = inject(Router)
-
-
-  users: User[] = []; 
-  roleId = -1
-
-  constructor(private primengConfig: PrimeNGConfig) {
-    //this.userServcie.getAllUsers().subscribe({
-     // next: (user) => {
-      //  this.users = user
-    //  }
-   // })
-  }
+  courses: Course[] = [];
+  users: User[] = [];
+  roleId = -1;
 
   ngOnInit() {
-    const roleString = sessionStorage.getItem('role'); 
-    this.roleId = roleString ? parseInt(roleString, 10) : -1; 
-    this.primengConfig.ripple = true; 
+    const roleString = sessionStorage.getItem('role');
+    this.roleId = roleString ? parseInt(roleString, 10) : -1;
+
+    this.primengConfig.ripple = true;
+
+    this.courseService.getCourses().subscribe({
+      next: (data) => {
+        this.courses = data;
+        console.log('Courses fetched:', this.courses);
+      },
+      error: (err) => {
+        console.error('Error fetching courses:', err);
+      },
+    });
   }
 
-
-
+  removeCourse(courseToRemove: Course) {
+    this.courses = this.courses.filter(course => course.id !== courseToRemove.id);
+  }
+  
 }

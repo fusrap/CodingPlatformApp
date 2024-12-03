@@ -10,7 +10,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { Course, CoursePostData } from '../../../interfaces/course';
 import { CourseContentManagerComponent } from "../course-content-manager/course-content-manager.component";
 import { CommonModule } from '@angular/common';
-import { ContentElement } from '../../../interfaces/content-element';
+import { ContentElement, ContentType, InputElement, TextElement } from '../../../interfaces/content-element';
 import { CourseService } from '../../../services/course.service';
 
 
@@ -49,6 +49,7 @@ export class CreateCourseComponent {
   courseElements: ContentElement[] = []; 
   isEditable: boolean = true;
   courseData: Course | null = null; 
+  loading: boolean = false;
 
   onCreateCourse() {
     this.courseData = {
@@ -72,18 +73,53 @@ export class CreateCourseComponent {
 
   saveCourse() {
     if (this.courseData) {
-      this.synchronizeElements()
-      this.courseService.saveCourse(this.courseData).subscribe({
+      const sanitizedElements = this.courseElements.map((element) => {
+        if ('text' in element) {
+          const textElement = element as TextElement;
+          return {
+            id: textElement.id,
+            isEditing: textElement.isEditing,
+            type: ContentType.Text,
+            text: textElement.text,
+          };
+        } else if ('label' in element && 'answer' in element) {
+          const inputElement = element as InputElement;
+          return {
+            id: inputElement.id,
+            isEditing: inputElement.isEditing,
+            type: ContentType.Input, 
+            label: inputElement.label,
+            answer: inputElement.answer,
+          };
+        }
+  
+        throw new Error(`Unknown element type for element: ${JSON.stringify(element)}`); 
+      });
+  
+      const sanitizedCourseData = {
+        ...this.courseData,
+        elements: sanitizedElements,
+      };
+      this.loading = true;
+      this.courseService.saveCourse(sanitizedCourseData).subscribe({
         next: (response) => {
           console.log('Course saved successfully:', response);
           this.router.navigate(['/home']);
         },
-        error: (error) => {
-          console.error('Failed to save course:', error);
+        error: (err) => {
+          console.error('Failed to save course:', err);
+          this.loading = false;
         },
       });
+    } else {
+      console.error('No course data to save.');
+      this.loading = false;
     }
   }
+  
+  
+  
+  
 
   synchronizeElements() {
     this.onElementsChange([...this.courseElements]);

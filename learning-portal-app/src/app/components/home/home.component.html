@@ -42,31 +42,42 @@
         @if (roleId > 0) {
         <div class="m-4">
             <p-button 
-            routerLink="/create-course" 
-            severity="success">
+                routerLink="/create-course" 
+                severity="success">
                 Nyt kursus
             </p-button>
         </div>
         }
         <p-card header="Kurser">
             <p-table
-                [value]="users"
+                [value]="courses"
                 [scrollable]="true"
                 [scrollHeight]="'400px'"
                 [tableStyle]="{ 'min-width': '50rem' }"
             >
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>Name</th>
-                        <th>Email</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Created</th>
+                        <th></th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-user>
+                <ng-template pTemplate="body" let-course>
                     <tr>
-                        <td>{{ user.fullName }}</td>
-                        <td>{{ user.email }}</td>
+                        <td>{{ course.courseTitle }}</td>
+                        <td>{{ course.courseDescription || 'No Description' }}</td>
+                        <td>{{ course.created }}</td>
+                        <td>
+                            <p-button
+                                label="Slet"
+                                severity="danger"
+                                (click)="removeCourse(course)">
+                            </p-button>
+                        </td>
                     </tr>
                 </ng-template>
+                
             </p-table>
         </p-card>
     </div>
