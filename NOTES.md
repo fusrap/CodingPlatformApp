@@ -40,13 +40,11 @@ Init components:
 * ng g i interfaces/auth
 
 # DB setup
--- Remove tables if they already exist
 DROP TABLE IF EXISTS CourseElement;
 DROP TABLE IF EXISTS TextElement;
 DROP TABLE IF EXISTS InputElement;
 DROP TABLE IF EXISTS Course;
 
--- Course table: remains unchanged
 CREATE TABLE Course (
     course_id BIGINT PRIMARY KEY IDENTITY(1,1), 
     course_title NVARCHAR(255) NOT NULL, 

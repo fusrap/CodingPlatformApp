@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { MenubarModule } from 'primeng/menubar';
 
 @Component({
@@ -7,18 +7,16 @@ import { MenubarModule } from 'primeng/menubar';
   standalone: true,
   imports: [
     MenubarModule,
-    RouterLink
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+  private router = inject(Router);
 
-  private router = inject(Router)
-
-  userRole: string | null = null
+  userRole: string | null = null;
   
-  items: any[] = []
+  items: any[] = [];
   
   constructor() {}
 
@@ -29,28 +27,50 @@ export class HeaderComponent {
       {
         label: 'Home',
         icon: 'pi pi-home',
-        routerLink: '/home', 
+        routerLink: '/home',
       },
       {
         label: 'Kurser',
-        icon: 'pi pi-palette', 
-        routerLink: '', 
+        icon: 'pi pi-palette',
+        routerLink: '',
+        items: [
+          {
+            label: 'Nyt kursus', 
+            icon: 'pi pi-plus', 
+            routerLink: '/create-course'
+          }
+
+        ]
+      },
+      {
+        label: 'Spil',
+        icon: 'pi pi-rocket',
+        items: [
+          {
+            label: 'Jeopardy',
+            icon: 'pi pi-star',
+            items: [
+              { label: 'Opret Jeopardy', icon: 'pi pi-plus', routerLink: '/create-jeopardy' },
+            ]
+          }
+        ]
       },
       {
         label: 'Brugere',
-        icon: 'pi pi-user', 
-        routerLink: '', 
+        icon: 'pi pi-user',
+        routerLink: '',
       },
       {
         label: 'Log ud',
-        icon: 'pi pi-sign-out', 
-        command: () => this.logout(), 
+        icon: 'pi pi-sign-out',
+        command: () => this.logout(),
       },
     ];
+    
   }
 
   logout() {
     sessionStorage.clear();
-    this.router.navigate(['login'])
+    this.router.navigate(['login']);
   }
 }
