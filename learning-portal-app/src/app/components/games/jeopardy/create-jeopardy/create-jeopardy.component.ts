@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, Injectable } from '@angular/core';
 import { HeaderComponent } from "../../../header/header.component";
 import { CardModule } from 'primeng/card';
 import { RouterLink } from '@angular/router';
@@ -8,12 +8,8 @@ import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabelModule } from 'primeng/floatlabel';
-
-interface JeopardyCell {
-  value: number;
-  question: string;
-  answer: string;
-}
+import { JeopardyCell, Jeopardy } from '../../../../interfaces/jeopardy';
+import { JeopardyService } from '../../../../services/jeopardy.service';
 
 @Component({
   selector: 'app-create-jeopardy',
@@ -33,6 +29,9 @@ interface JeopardyCell {
   styleUrl: './create-jeopardy.component.css'
 })
 export class CreateJeopardyComponent {
+
+  title: string = '';
+  description: string = ''; 
   rows: number = 3; 
   columns: number = 3; 
   grid: JeopardyCell[][] = [];
@@ -43,9 +42,11 @@ export class CreateJeopardyComponent {
   selectedCol: number = -1;
   selectedCell: JeopardyCell | null = null;
 
-  constructor() {
+  constructor(private jeopardyService: JeopardyService) {
     this.initializeGrid();
   }
+
+   
 
   initializeGrid() {
     this.grid = Array.from({ length: this.rows }, () =>
@@ -70,5 +71,21 @@ export class CreateJeopardyComponent {
     this.visible = false;
   }
 
-  createJeopardy() {}
+  createJeopardy() {
+    const jeopardyData: Jeopardy = {
+      title: this.title,
+      description: this.description,
+      subjects: this.subjects,
+      grid: this.grid
+    };
+
+    this.jeopardyService.saveJeopardy(jeopardyData).subscribe({
+      next: (response) => {
+        console.log('Jeopardy saved successfully:', response);
+      },
+      error: (err) => {
+        console.error('Error saving Jeopardy:', err);
+      }
+    })
+  }
 }

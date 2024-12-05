@@ -83,6 +83,37 @@ select * from CourseElement
 select * from TextElement
 select * from InputElement
 
+CREATE TABLE Jeopardy (
+    jeopardy_id INT IDENTITY(1,1) PRIMARY KEY,
+    jeopardy_title NVARCHAR(255) NOT NULL,
+    jeopardy_description NVARCHAR(MAX) NULL,
+    created DATETIME DEFAULT GETDATE()
+);
+
+CREATE TABLE Subjects (
+    subject_Id INT IDENTITY(1,1) PRIMARY KEY,
+    subject_name NVARCHAR(255) NOT NULL,
+    subject_jeopardy_id INT NOT NULL,
+    FOREIGN KEY (subject_jeopardy_id) REFERENCES Jeopardy(jeopardy_id) ON DELETE CASCADE
+);
+
+CREATE TABLE JeopardyCells (
+    jeopardy_cell_id INT IDENTITY(1,1) PRIMARY KEY,
+    jeopardy_cell_value INT NOT NULL,
+    jeopardy_cell_question NVARCHAR(MAX) NOT NULL,
+    jeopardy_cell_answer NVARCHAR(MAX) NOT NULL,
+    RowNumber INT NOT NULL,
+    ColumnNumber INT NOT NULL,
+    jeopardy_cell_jeopardy_id INT NOT NULL,
+    FOREIGN KEY (jeopardy_cell_jeopardy_id) REFERENCES Jeopardy(jeopardy_id) ON DELETE CASCADE
+);
+
+CREATE INDEX IDX_Subjects_Jeopardy_Id ON Subjects(subject_Id);
+CREATE INDEX IDX_JeopardyCells_Jeopardy_Id ON JeopardyCells(jeopardy_cell_id);
+
+select * from Jeopardy
+select * from JeopardyCells
+select * from Subjects
 
 ## DB Migration
 

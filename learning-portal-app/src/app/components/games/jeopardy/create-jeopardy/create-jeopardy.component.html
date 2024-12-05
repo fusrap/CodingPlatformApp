@@ -28,6 +28,7 @@
             id="rows" 
             type="number" 
             min="1" 
+            max="10"
             [(ngModel)]="rows" 
             (ngModelChange)="initializeGrid()" 
             name="rows" 
@@ -41,11 +42,36 @@
             id="columns" 
             type="number" 
             min="1" 
+            max="10"
             [(ngModel)]="columns" 
             (ngModelChange)="initializeGrid()" 
             name="columns" 
             required 
             class="p-inputtext-sm w-full">
+        </div>
+      </div>
+      <div class="flex justify-content-between mb-4">
+        <div class="flex-grow-1 ml-2">
+          <label for="title" class="block mb-2">Titel</label>
+          <input
+          type="text" 
+          pInputText 
+          [(ngModel)]="title" 
+          id="title" 
+          name="title"
+          required
+          class="p-inputtext-sm w-full">
+        </div>
+        <div class="flex-grow-1 ml-2">
+          <label for="description" class="block mb-2">Beskrivelse</label>
+          <input
+          type="text" 
+          pInputText 
+          name="description"
+          [(ngModel)]="description" 
+          id="description" 
+          required
+          class="p-inputtext-sm w-full">
         </div>
       </div>
     </form>
@@ -71,7 +97,7 @@
               class="col text-center border-round-sm bg-primary text-white font-bold cursor-pointer flex align-items-center justify-content-center"
               style="flex: 1; height: 4rem;" 
               (click)="editCell(grid.indexOf(row), row.indexOf(cell))">
-              {{ cell.value || '?' }}
+              {{ cell.value || 'Udfyld' }}
             </div>
           }
         </div>
