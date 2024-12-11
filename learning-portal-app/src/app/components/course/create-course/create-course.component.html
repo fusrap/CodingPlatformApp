@@ -1,0 +1,97 @@
+<app-header></app-header>
+<div class="form-container flex flex-column justify-content-center align-items-stretch">
+    <div class="mb-3">
+        <button 
+            pButton 
+            type="button" 
+            class="p-button-danger" 
+            label="Abryd" 
+            [routerLink]="['/home']">
+        </button>
+    </div>
+    @if (this.isEditable) {
+    <p-card 
+        header="Opret Kursus" 
+        [style]="{ width: '100%', minWidth: '800px' }">
+        <form [formGroup]="courseForm" (ngSubmit)="onCreateCourse()">
+            <div class="field">
+                <label for="courseTitle">Titel*</label>
+                <i 
+                    class="pi pi-question-circle tooltip-icon" 
+                    [pTooltip]="titleTooltip" 
+                    tooltipPosition="bottom">
+                </i>
+                <input 
+                    pInputText 
+                    id="courseTitle" 
+                    class="w-full" 
+                    formControlName="courseTitle">
+            </div>
+            @if (courseTitle.invalid && (courseTitle.dirty || courseTitle.touched)) {
+                <small class="block p-error">Indtast kursustitel</small>
+            }
+            <div class="field">
+                <label for="float-input">Beskrivelse</label>
+                <textarea 
+                    id="float-input" 
+                    rows="5" 
+                    cols="30" 
+                    class="w-full" 
+                    pInputTextarea 
+                    formControlName="courseDescription">
+                </textarea>
+            </div>
+            <p-button 
+                type="submit"
+                label="Opret"
+                [disabled]="courseForm.invalid"
+            ></p-button>   
+        </form>
+    </p-card>
+    } @else {  
+        <div class="card flex justify-content-center">
+            <p-card 
+            header="{{ courseData?.courseTitle }}" 
+            subheader="{{ courseData?.courseDescription }}"
+             [style]="{ width: '800px' }">
+                <ng-template pTemplate="header">
+                    <img alt="Card" src="https://evolve.elsevier.com/education/wp-content/uploads/sites/2/elsevier-education-smiling-student-health-library-min-1205x498-1.jpg" />
+                </ng-template>
+                <app-course-content-manager 
+                [(elements)]="courseElements"
+                (elementsChange)="onElementsChange($event)">
+              </app-course-content-manager>
+              
+                <ng-template pTemplate="footer">
+                    <div class="flex gap-3 mt-1">
+                        <p-button 
+                        label="Gem kursus"
+                        severity="success"
+                        class="w-full"
+                        styleClass="w-full"
+                        [loading]="loading" 
+                        (onClick)="saveCourse()" 
+                        />
+                        <p-button 
+                        type="submit"
+                        label="Ret kursus detaljer"
+                        severity="secondary"
+                        class="w-full" styleClass="w-full"
+                        (onClick)="editCourse()"
+                    ></p-button>  
+                    </div>
+                </ng-template>
+            </p-card>
+        </div>   
+    }   
+</div>
+
+<ng-template #titleTooltip>
+    <div class="flex align-items-center">
+        <span>
+            <b>Hint:</b>
+            Kursets titel bruges til at præsentere kurset og gør det lettere for andre brugere at finde det via søgning.
+        </span>
+    </div>
+</ng-template>
+

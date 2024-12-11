@@ -3,62 +3,87 @@
 <h1 class="text-center font-bold text-primary m-4">Dashboard</h1>
 
 <div class="flex justify-content-center align-items-center m-4">
-    <span class="p-input-icon-left">
-        <i class="pi pi-search"></i>
-        <input pInputText placeholder="Search" />
-    </span>
+  <span class="p-input-icon-left">
+    <i class="pi pi-search"></i>
+    <input pInputText placeholder="Search" />
+  </span>
 </div>
 
 @if (roleId > 0) {
-<div class="flex justify-content-center align-items-center">
+  <div class="flex justify-content-center align-items-center">
     <div class="col-10 p-2">
-        <p-card header="Brugere">
-            <p-table
-                [value]="users"
-                [scrollable]="true"
-                [scrollHeight]="'400px'"
-                [tableStyle]="{ 'min-width': '50rem' }"
-            >
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-user>
-                    <tr>
-                        <td>{{ user.fullName }}</td>
-                        <td>{{ user.email }}</td>
-                    </tr>
-                </ng-template>
-            </p-table>
-        </p-card>
+      <p-card header="Brugere">
+        <p-table
+          [value]="users"
+          [scrollable]="true"
+          [scrollHeight]="'400px'"
+          [tableStyle]="{ 'min-width': '50rem' }"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Navn</th>
+              <th>Email</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-user>
+            <tr>
+              <td>{{ user.fullName }}</td>
+              <td>{{ user.email }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-card>
     </div>
-</div>
+  </div>
 }
 
 <div class="flex justify-content-center align-items-center">
-    <div class="col-10 p-2">
-        <p-card header="Kurser">
-            <p-table
-                [value]="users"
-                [scrollable]="true"
-                [scrollHeight]="'400px'"
-                [tableStyle]="{ 'min-width': '50rem' }"
-            >
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-user>
-                    <tr>
-                        <td>{{ user.fullName }}</td>
-                        <td>{{ user.email }}</td>
-                    </tr>
-                </ng-template>
-            </p-table>
-        </p-card>
-    </div>
+  <div class="col-10 p-2">
+    @if (roleId > 0) {
+      <div class="m-4">
+        <p-button routerLink="/create-course" severity="success">
+          Nyt kursus
+        </p-button>
+        <p-button class="m-4" routerLink="/create-jeopardy" severity="success">
+          Opret Jeopardy
+        </p-button>
+      </div>
+    }
+    <p-card header="Kurser og Spil">
+      <p-table
+        [value]="combinedList"
+        [scrollable]="true"
+        [scrollHeight]="'400px'"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        selectionMode="single"
+        [(selection)]="selectedItem"
+        (onRowSelect)="onRowSelect($event)"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>titel</th>
+            <th>Beskrivelse</th>
+            <th>Oprettet</th>
+            <th>Type</th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr [pSelectableRow]="item">
+            <td>{{ item.courseTitle || item.title }}</td>
+            <td>{{ item.courseDescription || item.description || 'No Description' }}</td>
+            <td>{{ item.created }}</td>
+            <td>{{ item.type === 'course' ? 'Course' : 'Jeopardy' }}</td>
+            <td>
+              <p-button
+                label="Slet"
+                severity="danger"
+                (click)="removeItem(item)"
+              ></p-button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>   
+  </div>
 </div>

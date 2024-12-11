@@ -1,0 +1,45 @@
+
+    @if (!isEditing) {
+            <div class="p-field">
+                <label for="answer">{{ label }}</label>
+                <input pInputText id="answer" [disabled]="true" [(ngModel)]="answer" />
+            </div>
+            <div class="button-container">
+                <button 
+                    pButton 
+                    label="Ret" 
+                    icon="pi pi-pencil" 
+                    class="p-button-secondary" 
+                    (click)="toggleMode()"
+                ></button>
+            </div>
+    } @else {
+        <div class="page-container">
+        <div class="p-fluid edit-mode">
+            <div class="p-field">
+                <label for="questionInput">Spørgsmål:</label>
+                <input id="questionInput" pInputText [(ngModel)]="label" />
+            </div>
+            <div class="p-field">
+                <label for="answerInput">Svar:</label>
+                <input id="answerInput" pInputText [(ngModel)]="answer" />
+            </div>
+            <div class="button-container">
+                <button 
+                    pButton 
+                    label="Færdig" 
+                    icon="pi pi-check" 
+                    class="p-button-success" 
+                    (click)="toggleMode()"
+                ></button>
+                <button 
+                    pButton 
+                    label="Delete" 
+                    icon="pi pi-trash" 
+                    class="p-button-danger" 
+                    (click)="onDeleteClick()"
+                ></button>
+            </div>
+        </div>
+    </div>
+    }

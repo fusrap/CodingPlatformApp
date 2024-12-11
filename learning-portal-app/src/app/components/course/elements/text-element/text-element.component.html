@@ -1,0 +1,37 @@
+@if (!isEditing) {
+<div class="text-element">
+    <p>{{ text }}</p>
+    <button
+      pButton
+      label="Ret"
+      icon="pi pi-pencil"
+      class="p-button-secondary"
+      (click)="toggleMode()"
+    ></button>
+  </div>
+}  @else {
+    <div class="text-element">
+      <textarea
+        pInputTextarea
+        [(ngModel)]="text"
+        rows="5"
+        cols="30"
+        class="w-full"
+      ></textarea>
+      <button
+        pButton
+        label="Færdig"
+        icon="pi pi-check"
+        class="p-button-success"
+        (click)="toggleMode()"
+      ></button>
+      <button
+        pButton
+        label="Delete"
+        icon="pi pi-trash"
+        class="p-button-danger"
+        (click)="onDeleteClick()"
+      ></button>
+    </div>
+  }
+  

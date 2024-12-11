@@ -1,0 +1,154 @@
+<app-header></app-header>
+<div class="flex justify-content-center align-items-center min-h-screen">
+  <p-card 
+    header="Opret Jeopardy layout" 
+    class="w-11 sm:w-10 lg:w-9 xl:w-8 max-w-5xl">
+    <form #loginForm="ngForm" (ngSubmit)="createJeopardy()">
+      <div class="flex justify-content-between mb-4">
+        <p-button 
+          severity="danger" 
+          label="Abryd" 
+          styleClass="w-full mr-2">
+        </p-button>
+        <p-button 
+          severity="success" 
+          label="Opret" 
+          styleClass="w-full ml-2"
+          [disabled]="loginForm.invalid" 
+          type="submit">
+        </p-button>
+      </div>
+
+      <div class="flex justify-content-between mb-4">
+        <div class="flex-grow-1 mr-2">
+          <label for="rows" class="block mb-2">Antal rækker</label>
+          <input 
+            pInputText 
+            id="rows" 
+            type="number" 
+            min="1" 
+            max="10"
+            [(ngModel)]="rows" 
+            (ngModelChange)="initializeGrid()" 
+            name="rows" 
+            required 
+            class="p-inputtext-sm w-full">
+        </div>
+        <div class="flex-grow-1 ml-2">
+          <label for="columns" class="block mb-2">Antal kolonner</label>
+          <input 
+            pInputText 
+            id="columns" 
+            type="number" 
+            min="1" 
+            max="10"
+            [(ngModel)]="columns" 
+            (ngModelChange)="initializeGrid()" 
+            name="columns" 
+            required 
+            class="p-inputtext-sm w-full">
+        </div>
+      </div>
+      <div class="flex justify-content-between mb-4">
+        <div class="flex-grow-1 ml-2">
+          <label for="title" class="block mb-2">Titel</label>
+          <input
+          type="text" 
+          pInputText 
+          [(ngModel)]="title" 
+          id="title" 
+          name="title"
+          required
+          class="p-inputtext-sm w-full">
+        </div>
+        <div class="flex-grow-1 ml-2">
+          <label for="description" class="block mb-2">Beskrivelse</label>
+          <input
+          type="text" 
+          pInputText 
+          name="description"
+          [(ngModel)]="description" 
+          id="description" 
+          required
+          class="p-inputtext-sm w-full">
+        </div>
+      </div>
+    </form>
+
+    <div class="flex gap-3 mb-3">
+        @for (subject of subjects; track $index) {
+            <p-floatLabel class="w-full">
+                <input 
+                    pInputText 
+                    [(ngModel)]="subjects[$index]" 
+                    name="subject-{{$index}}" 
+                    class="p-inputtext-sm text-center w-full">
+                <label for="subject-{{$index}}">Emne</label>
+            </p-floatLabel>
+        }
+    </div>
+
+    <div class="flex flex-column gap-3">
+      @for (row of grid; track row) {
+        <div class="flex gap-3">
+          @for (cell of row; track cell) {
+            <div
+              class="col text-center border-round-sm bg-primary text-white font-bold cursor-pointer flex align-items-center justify-content-center"
+              style="flex: 1; height: 4rem;" 
+              (click)="editCell(grid.indexOf(row), row.indexOf(cell))">
+              {{ cell.value || 'Udfyld' }}
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <p-dialog 
+      header="Edit Jeopardy Cell" 
+      [modal]="true" 
+      [(visible)]="visible" 
+      [style]="{ width: '25rem' }">
+      <div *ngIf="selectedCell" class="flex flex-column gap-3">
+        <div class="flex align-items-center gap-3">
+          <label for="value" class="font-semibold w-6rem">Value</label>
+          <input 
+            pInputText 
+            id="value" 
+            type="number" 
+            [(ngModel)]="selectedCell.value" 
+            name="value" 
+            class="flex-auto">
+        </div>
+        <div class="flex align-items-center gap-3">
+          <label for="question" class="font-semibold w-6rem">Question</label>
+          <input 
+            pInputText 
+            id="question" 
+            [(ngModel)]="selectedCell.question" 
+            name="question" 
+            class="flex-auto">
+        </div>
+        <div class="flex align-items-center gap-3">
+          <label for="answer" class="font-semibold w-6rem">Answer</label>
+          <input 
+            pInputText 
+            id="answer" 
+            [(ngModel)]="selectedCell.answer" 
+            name="answer" 
+            class="flex-auto">
+        </div>
+        <div class="flex justify-content-end gap-2">
+          <p-button 
+            label="Cancel" 
+            severity="secondary" 
+            (click)="visible = false">
+          </p-button>
+          <p-button 
+            label="Save" 
+            (click)="saveCell(selectedRow, selectedCol)">
+          </p-button>
+        </div>
+      </div>
+    </p-dialog>
+  </p-card>
+</div>

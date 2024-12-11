@@ -1,6 +1,6 @@
 import {
   DomHandler
-} from "./chunk-4VBMWFH7.js";
+} from "./chunk-BUGEQH7Q.js";
 import {
   CommonModule,
   DOCUMENT,
@@ -8,11 +8,11 @@ import {
   NgStyle,
   NgTemplateOutlet,
   isPlatformBrowser
-} from "./chunk-ZVU7VLIB.js";
+} from "./chunk-OZ3E3JH7.js";
 import {
   PrimeTemplate,
   UniqueComponentId
-} from "./chunk-VXKI3JOT.js";
+} from "./chunk-UWTFXPYB.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -52,11 +52,11 @@ import {
   ɵɵrestoreView,
   ɵɵtemplate,
   ɵɵviewQuery
-} from "./chunk-BVPYTP4N.js";
-import "./chunk-7TIWL4T5.js";
+} from "./chunk-43623GOX.js";
+import "./chunk-ZSY7TSMJ.js";
 import "./chunk-WDMUDEB6.js";
 
-// ../node_modules/primeng/fesm2022/primeng-scrollpanel.mjs
+// node_modules/primeng/fesm2022/primeng-scrollpanel.mjs
 var _c0 = ["container"];
 var _c1 = ["content"];
 var _c2 = ["xBar"];

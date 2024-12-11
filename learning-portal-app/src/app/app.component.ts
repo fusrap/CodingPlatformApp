@@ -24,16 +24,7 @@ export class AppComponent {
   constructor(
     private http: HttpClient,
     @Inject(BASE_URL) private baseUrl: string
-  ) { this.ping()  }
+  ) {  }
 
-  ping() {
-    this.http.get(`${this.baseUrl}/ping`).subscribe({
-      next: (response) => {
-        console.log('ping -', response);
-      },
-      error: (err) => {
-        console.error('Error during ping:', err);
-      }
-    });
-  }
+
 }  
