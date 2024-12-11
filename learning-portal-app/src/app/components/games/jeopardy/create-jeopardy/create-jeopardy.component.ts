@@ -1,7 +1,7 @@
 import { Component, inject, Injectable } from '@angular/core';
 import { HeaderComponent } from "../../../header/header.component";
 import { CardModule } from 'primeng/card';
-import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -19,7 +19,6 @@ import { JeopardyService } from '../../../../services/jeopardy.service';
     CommonModule,
     FormsModule,
     CardModule,
-    RouterLink,
     ButtonModule,
     DialogModule,
     InputTextModule,
@@ -42,7 +41,9 @@ export class CreateJeopardyComponent {
   selectedCol: number = -1;
   selectedCell: JeopardyCell | null = null;
 
-  constructor(private jeopardyService: JeopardyService) {
+  constructor(private jeopardyService: JeopardyService,
+    private router: Router 
+  ) {
     this.initializeGrid();
   }
 
@@ -73,6 +74,7 @@ export class CreateJeopardyComponent {
 
   createJeopardy() {
     const jeopardyData: Jeopardy = {
+      id: -1,
       title: this.title,
       description: this.description,
       subjects: this.subjects,
@@ -82,6 +84,7 @@ export class CreateJeopardyComponent {
     this.jeopardyService.saveJeopardy(jeopardyData).subscribe({
       next: (response) => {
         console.log('Jeopardy saved successfully:', response);
+        this.router.navigate(['/home']);
       },
       error: (err) => {
         console.error('Error saving Jeopardy:', err);

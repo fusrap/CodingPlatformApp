@@ -55,7 +55,7 @@ export class CreateCourseComponent {
     this.courseData = {
       ...this.courseForm.value as CoursePostData,
       elements: [...this.courseElements], 
-      id: Date.now().toString() 
+      id: Date.now() 
     };
     this.isEditable = false;
 
@@ -116,10 +116,6 @@ export class CreateCourseComponent {
       this.loading = false;
     }
   }
-  
-  
-  
-  
 
   synchronizeElements() {
     this.onElementsChange([...this.courseElements]);

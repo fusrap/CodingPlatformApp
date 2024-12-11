@@ -8,5 +8,5 @@ export interface CoursePostData {
 }
 
 export interface Course extends CoursePostData {
-    id: string;
+    id: number;
 }

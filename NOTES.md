@@ -108,6 +108,11 @@ CREATE TABLE JeopardyCells (
 
 CREATE INDEX IDX_Subjects_Jeopardy_Id ON Subjects(subject_Id);
 CREATE INDEX IDX_JeopardyCells_Jeopardy_Id ON JeopardyCells(jeopardy_cell_id);
+DROP INDEX IDX_Subjects_Jeopardy_Id ON Subjects;
+DROP INDEX IDX_JeopardyCells_Jeopardy_Id ON JeopardyCells;
+
+
+
 
 select * from Jeopardy
 select * from JeopardyCells

@@ -8,6 +8,7 @@ import { Course } from '../interfaces/course';
   providedIn: 'root'
 })
 export class CourseService {
+
   constructor(
     private http: HttpClient,
     @Inject(BASE_URL) private baseUrl: string
@@ -16,6 +17,11 @@ export class CourseService {
   saveCourse(course: Course): Observable<Course> {
     const url = `${this.baseUrl}/course`;
     return this.http.post<Course>(url, course); 
+  }
+
+  deleteCourseById(id: number): Observable<any> {
+    const url = `${this.baseUrl}/course/${id}`;
+    return this.http.delete(url);
   }
 
   getCourses(): Observable<Course[]> {
