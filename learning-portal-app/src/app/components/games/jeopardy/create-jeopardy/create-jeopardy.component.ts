@@ -1,7 +1,7 @@
 import { Component, inject, Injectable } from '@angular/core';
 import { HeaderComponent } from "../../../header/header.component";
 import { CardModule } from 'primeng/card';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -22,7 +22,8 @@ import { JeopardyService } from '../../../../services/jeopardy.service';
     ButtonModule,
     DialogModule,
     InputTextModule,
-    FloatLabelModule
+    FloatLabelModule,
+    RouterLink
   ],
   templateUrl: './create-jeopardy.component.html',
   styleUrl: './create-jeopardy.component.css'
