@@ -8,6 +8,7 @@ import { CreateCourseComponent } from './components/course/create-course/create-
 import { CreateJeopardyComponent } from './components/games/jeopardy/create-jeopardy/create-jeopardy.component';
 import { ViewJeopardyComponent } from './components/games/jeopardy/view-jeopardy/view-jeopardy.component';
 import { ViewCourseComponent } from './components/course/view-course/view-course.component';
+import { PlayJeopardyComponent } from './components/games/jeopardy/play-jeopardy/play-jeopardy.component';
 
 export const routes: Routes = [
     {
@@ -43,6 +44,11 @@ export const routes: Routes = [
         component: ViewJeopardyComponent,
         canActivate: [authGuard],
     },
+    { path: 
+        'jeopardy/:id/play', 
+        component: PlayJeopardyComponent,
+        canActivate: [authGuard]
+     },
     {
         path: 'course/:id',
         component: ViewCourseComponent,

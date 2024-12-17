@@ -1,10 +1,12 @@
 import {
   Footer,
   Header,
-  ObjectUtils,
   PrimeTemplate,
   SharedModule
-} from "./chunk-UWTFXPYB.js";
+} from "./chunk-2OPVYNHI.js";
+import {
+  ObjectUtils
+} from "./chunk-Q53QHQGR.js";
 import {
   CommonModule,
   NgClass,

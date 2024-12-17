@@ -2,9 +2,11 @@ import {
   DomHandler
 } from "./chunk-BUGEQH7Q.js";
 import {
-  PrimeTemplate,
+  PrimeTemplate
+} from "./chunk-2OPVYNHI.js";
+import {
   UniqueComponentId
-} from "./chunk-UWTFXPYB.js";
+} from "./chunk-Q53QHQGR.js";
 import {
   CommonModule,
   DOCUMENT,

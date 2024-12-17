@@ -1,7 +1,8 @@
 import {
   PrimeTemplate,
   SharedModule
-} from "./chunk-UWTFXPYB.js";
+} from "./chunk-2OPVYNHI.js";
+import "./chunk-Q53QHQGR.js";
 import {
   CommonModule,
   NgClass,

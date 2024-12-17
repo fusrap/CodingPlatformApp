@@ -28,7 +28,7 @@ export class JeopardyService {
       );
   }
   
-    getJeopardyById(id: number): Observable<any> {
+    getJeopardyById(id: string): Observable<any> {
       const url = `${this.baseUrl}/jeopardy/${id}`;
       return this.http.get(url);
     }

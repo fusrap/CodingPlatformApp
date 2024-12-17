@@ -1,31 +1,62 @@
 import {
+  AngleDownIcon,
+  AngleRightIcon
+} from "./chunk-RICF42CW.js";
+import {
+  InputText,
+  InputTextModule
+} from "./chunk-CDXZLZWM.js";
+import {
+  ButtonDirective,
+  ButtonModule
+} from "./chunk-N4TWFXQ6.js";
+import {
   ChevronDownIcon,
   Dropdown,
   DropdownModule,
   Scroller,
   ScrollerModule
-} from "./chunk-BTJHRFVD.js";
-import {
-  CheckIcon
-} from "./chunk-QTPXMSIS.js";
+} from "./chunk-7PMINCDB.js";
+import "./chunk-VFDOX5PS.js";
 import {
   TimesIcon
-} from "./chunk-PPYIBD42.js";
-import {
-  ButtonDirective,
-  ButtonModule
-} from "./chunk-QCZOXSYL.js";
+} from "./chunk-JHAWIJ3F.js";
 import {
   SpinnerIcon
-} from "./chunk-SCV7R3JK.js";
+} from "./chunk-LRBCLOFW.js";
 import {
   AutoFocus,
   AutoFocusModule
 } from "./chunk-YRJPWTUB.js";
 import {
-  InputText,
-  InputTextModule
-} from "./chunk-Z5YLHZRR.js";
+  Ripple,
+  RippleModule
+} from "./chunk-BIXBNA62.js";
+import {
+  ConnectedOverlayScrollHandler,
+  DomHandler
+} from "./chunk-BUGEQH7Q.js";
+import {
+  FilterMatchMode,
+  FilterOperator,
+  FilterService,
+  OverlayService,
+  PrimeNGConfig,
+  PrimeTemplate,
+  SharedModule,
+  TranslationKeys
+} from "./chunk-2OPVYNHI.js";
+import {
+  CheckIcon
+} from "./chunk-OLOYBY5E.js";
+import {
+  BaseIcon
+} from "./chunk-TB4DG5BW.js";
+import {
+  ObjectUtils,
+  UniqueComponentId,
+  zindexutils
+} from "./chunk-Q53QHQGR.js";
 import {
   FormsModule,
   NG_VALUE_ACCESSOR,
@@ -34,41 +65,12 @@ import {
   NgModel
 } from "./chunk-OMHICF3O.js";
 import {
-  AngleDownIcon,
-  AngleRightIcon
-} from "./chunk-AXXH4R3Q.js";
-import "./chunk-UK7QZNN2.js";
-import {
-  BaseIcon
-} from "./chunk-VNGP2QCJ.js";
-import {
-  Ripple,
-  RippleModule
-} from "./chunk-NXFH4KW7.js";
-import {
-  ConnectedOverlayScrollHandler,
-  DomHandler
-} from "./chunk-BUGEQH7Q.js";
-import {
   animate,
   state,
   style,
   transition,
   trigger
 } from "./chunk-E6UIVI2P.js";
-import {
-  FilterMatchMode,
-  FilterOperator,
-  FilterService,
-  ObjectUtils,
-  OverlayService,
-  PrimeNGConfig,
-  PrimeTemplate,
-  SharedModule,
-  TranslationKeys,
-  UniqueComponentId,
-  zindexutils
-} from "./chunk-UWTFXPYB.js";
 import {
   DomSanitizer
 } from "./chunk-LLLEQC27.js";
