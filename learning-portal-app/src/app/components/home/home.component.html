@@ -5,7 +5,12 @@
 <div class="flex justify-content-center align-items-center m-4">
   <span class="p-input-icon-left">
     <i class="pi pi-search"></i>
-    <input pInputText placeholder="Search" />
+    <input
+      pInputText
+      placeholder="Search"
+      [(ngModel)]="searchQuery"
+      (ngModelChange)="filterData()" 
+    />
   </span>
 </div>
 
@@ -51,7 +56,7 @@
     }
     <p-card header="Kurser og Spil">
       <p-table
-        [value]="combinedList"
+        [value]="filteredCombinedList"
         [scrollable]="true"
         [scrollHeight]="'400px'"
         [tableStyle]="{ 'min-width': '50rem' }"
@@ -84,6 +89,6 @@
           </tr>
         </ng-template>
       </p-table>
-    </p-card>   
+    </p-card>
   </div>
 </div>
