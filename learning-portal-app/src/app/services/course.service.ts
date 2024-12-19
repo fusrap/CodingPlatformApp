@@ -85,6 +85,23 @@ export class CourseService {
     const url = `${this.baseUrl}/course/enrollment/${courseId}`;
     return this.http.get<{ status: string }>(url, { headers });
   }
+
+  completeCourse(courseId: number): Observable<any> {
+    const token = this.authService.getToken();
+    if (!token) {
+      throw new Error('Brugeren er ikke logget ind eller token mangler');
+    }
+  
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+    
+    const url = `${this.baseUrl}/course/enrollment/${courseId}/complete`;
+    
+    return this.http.post(url, {}, { headers });
+  }
+  
+  
   
 
 }

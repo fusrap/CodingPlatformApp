@@ -12,6 +12,7 @@ import { Course, ExtendedCourse } from '../../../interfaces/course';
 import { ExtendedContentElement, ExtendedInputElement, ExtendedTextElement } from '../../../interfaces/extended-content-element';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
+import { DialogModule } from 'primeng/dialog';
 
 
 @Component({
@@ -26,7 +27,8 @@ import { InputTextModule } from 'primeng/inputtext';
     MessagesModule,
     CardModule,
     InputTextModule,
-    RouterLink
+    RouterLink,
+    DialogModule
       
   ],
   templateUrl: './view-course.component.html',
@@ -38,9 +40,11 @@ export class ViewCourseComponent {
   isProcessing: boolean = false;
   errorMessage: string = '';
   isEnrolled: boolean | null = null;
+  isCourseCompleted: boolean = false;
 
   maxScore: number = 0;
   currentScore: number = 0;
+  
 
   constructor(private route: ActivatedRoute, private courseService: CourseService) {}
 
@@ -135,11 +139,25 @@ export class ViewCourseComponent {
       }
       element.isCorrect = false;
     }
-
+  
     if (this.currentScore === this.maxScore) {
-      alert('Tillykke! Du har besvaret alle spørgsmål korrekt!');
+      this.markCourseAsCompleted();
     }
   }
+
+  markCourseAsCompleted() {
+    this.courseService.completeCourse(Number(this.courseId)).subscribe({
+      next: () => {
+        alert('Tillykke! Du har fuldført kurset!');
+      },
+      error: (error) => {
+        console.log(error)
+        alert('Der opstod en fejl under registrering af gennemførelsen.');
+      }
+    });
+  }
+  
+  
 
   isTextElement(element: ExtendedContentElement): element is ExtendedTextElement {
     return element.type === 'Text';
