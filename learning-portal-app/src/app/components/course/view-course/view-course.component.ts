@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CourseService } from '../../../services/course.service';
 import { Message } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
@@ -25,7 +25,8 @@ import { InputTextModule } from 'primeng/inputtext';
     MessageModule,
     MessagesModule,
     CardModule,
-    InputTextModule
+    InputTextModule,
+    RouterLink
       
   ],
   templateUrl: './view-course.component.html',
@@ -37,6 +38,9 @@ export class ViewCourseComponent {
   isProcessing: boolean = false;
   errorMessage: string = '';
   isEnrolled: boolean | null = null;
+
+  maxScore: number = 0;
+  currentScore: number = 0;
 
   constructor(private route: ActivatedRoute, private courseService: CourseService) {}
 
@@ -64,6 +68,10 @@ export class ViewCourseComponent {
           ...data.course,
           elements: extendedElements,
         } as ExtendedCourse;
+
+        this.maxScore = extendedElements.filter(
+          (element) => element.type === 'Input'
+        ).length;
   
         this.isLoading = false;
         this.checkEnrollmentStatus();
@@ -90,7 +98,7 @@ export class ViewCourseComponent {
   enroll() {
     this.isProcessing = true;
     this.courseService.enrollInCourse(Number(this.courseId)).subscribe({
-      next: (response) => {
+      next: () => {
         this.isEnrolled = true;
         this.isProcessing = false;
       },
@@ -104,7 +112,7 @@ export class ViewCourseComponent {
   unenroll() {
     this.isProcessing = true;
     this.courseService.unenrollFromCourse(Number(this.courseId)).subscribe({
-      next: (response) => {
+      next: () => {
         this.isEnrolled = false;
         this.isProcessing = false;
       },
@@ -117,9 +125,19 @@ export class ViewCourseComponent {
 
   checkAnswer(element: ExtendedInputElement) {
     if (element.userAnswer?.trim().toLowerCase() === element.answer.trim().toLowerCase()) {
+      if (element.isCorrect === null || element.isCorrect === false) {
+        this.currentScore++; 
+      }
       element.isCorrect = true;
     } else {
+      if (element.isCorrect === true) {
+        this.currentScore--; 
+      }
       element.isCorrect = false;
+    }
+
+    if (this.currentScore === this.maxScore) {
+      alert('Tillykke! Du har besvaret alle spørgsmål korrekt!');
     }
   }
 
