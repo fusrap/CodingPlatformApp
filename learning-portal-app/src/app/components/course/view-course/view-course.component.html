@@ -1,1 +1,59 @@
-<p>view-course works!{{courseId}}</p>
+<app-header></app-header>
+
+<div class="p-grid p-justify-center p-mt-5">
+  <div class="p-col-12 p-md-8">
+    @if (isLoading) {
+      <p-progressSpinner></p-progressSpinner>
+    } @else if (errorMessage) {
+      <p-message severity="error">{{ errorMessage }}</p-message>
+    } @else {
+      <p-card>
+        <div class="p-card-header" style="display: flex; align-items: center; justify-content: space-between;">
+          <h1 style="margin: 0;">{{ courseData?.courseTitle }}</h1>
+          <div>
+            @if (isEnrolled === true) {
+              <p-button label="Afmeld kursus" icon="pi pi-times" severity="danger" (click)="unenroll()" [loading]="isProcessing"></p-button>
+            } @else {
+              <p-button label="Tilmeld kursus" icon="pi pi-check" severity="success" (click)="enroll()" [loading]="isProcessing"></p-button>
+            }
+          </div>
+        </div>
+        
+        <div class="p-card-body">
+          <p>{{ courseData?.courseDescription }}</p>
+        </div>
+
+        <div class="p-mb-3">
+          @for (element of courseData?.elements; track element.id) {
+            <p-card class="margin-bottom: 1rem;"> 
+              @if (isTextElement(element)) {
+                <p class="p-mb-2">{{ element.text }}</p> 
+              } @else if (isInputElement(element)) {
+                <div style="margin-bottom: 0.5rem;">
+                  <label class="p-mb-1" style="display: block;">{{ element.label }}</label>
+                  <input
+                    type="text"
+                    [(ngModel)]="element.userAnswer"
+                    placeholder="Indtast dit svar"
+                    class="p-inputtext p-mb-2"
+                  />
+                </div>
+                <p-button
+                  label="Tjek svar"
+                  icon="pi pi-question-circle"
+                  class="p-mb-2"
+                  (click)="checkAnswer(element)"
+                ></p-button>
+                @if (element.isCorrect === false) {
+                  <p-message severity="error" class="p-mb-2">Forkert svar</p-message>
+                } @else if (element.isCorrect === true) {
+                  <p-message severity="success" class="p-mb-2">Rigtigt</p-message>
+                }
+              }
+            </p-card>
+          }
+        </div>
+      </p-card>
+    }
+  </div>
+</div>

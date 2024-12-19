@@ -44,11 +44,11 @@ export class HomeComponent implements OnInit {
   private router = inject(Router);
 
   combinedList: any[] = [];
-  filteredCombinedList: any[] = []; // Ny variabel til filtrerede data
+  filteredCombinedList: any[] = []; 
   selectedItem: any | null = null;
   users: User[] = [];
   roleId: number = -1;
-  searchQuery: string = ''; // Tovej-binding til søgefeltet
+  searchQuery: string = ''; 
 
   ngOnInit() {
     this.initializeUserRole();
@@ -104,7 +104,7 @@ export class HomeComponent implements OnInit {
 
   private updateCombinedList(data: any[]) {
     this.combinedList = [...this.combinedList, ...data];
-    this.filteredCombinedList = [...this.combinedList]; // Initialiser den filtrerede liste
+    this.filteredCombinedList = [...this.combinedList]; 
   }
 
   filterData() {
@@ -143,6 +143,6 @@ export class HomeComponent implements OnInit {
 
   private removeFromCombinedList(itemId: number) {
     this.combinedList = this.combinedList.filter((item) => item.id !== itemId);
-    this.filterData(); // Opdater den filtrerede liste efter sletning
+    this.filterData(); 
   }
 }

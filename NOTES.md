@@ -112,6 +112,49 @@ DROP INDEX IDX_Subjects_Jeopardy_Id ON Subjects;
 DROP INDEX IDX_JeopardyCells_Jeopardy_Id ON JeopardyCells;
 
 
+CREATE TRIGGER trg_DeleteCourseElement
+ON CourseElement
+AFTER DELETE
+AS
+BEGIN
+    -- Slet fra TextElement, hvis det slettede CourseElement var af typen 'Text'
+    DELETE FROM TextElement
+    WHERE text_element_id IN (
+        SELECT element_id
+        FROM DELETED
+        WHERE element_type = 'Text'
+    );
+
+    -- Slet fra InputElement, hvis det slettede CourseElement var af typen 'Input'
+    DELETE FROM InputElement
+    WHERE input_element_id IN (
+        SELECT element_id
+        FROM DELETED
+        WHERE element_type = 'Input'
+    );
+END;
+GO
+
+CREATE TABLE StudentCourse (
+    student_course_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+    student_id INT NOT NULL,
+    course_id BIGINT NOT NULL,
+    enrolled_at DATETIME DEFAULT GETDATE(),
+    completed BIT DEFAULT 0,
+    CONSTRAINT FK_StudentCourse_Account FOREIGN KEY (student_id) REFERENCES Account(account_id) ON DELETE CASCADE,
+    CONSTRAINT FK_StudentCourse_Course FOREIGN KEY (course_id) REFERENCES Course(course_id) ON DELETE CASCADE,
+    UNIQUE(student_id, course_id)
+);
+
+CREATE TABLE StudentCourseElement (
+    student_course_element_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+    student_id INT NOT NULL,
+    course_element_id BIGINT NOT NULL,
+    completed_at DATETIME DEFAULT NULL,
+    CONSTRAINT FK_StudentCourseElement_Account FOREIGN KEY (student_id) REFERENCES Account(account_id) ON DELETE CASCADE,
+    CONSTRAINT FK_StudentCourseElement_CourseElement FOREIGN KEY (course_element_id) REFERENCES CourseElement(course_element_id) ON DELETE CASCADE,
+    UNIQUE(student_id, course_element_id)
+);
 
 
 select * from Jeopardy
@@ -121,4 +164,4 @@ select * from Subjects
 ## DB Migration
 
 migration:
-python -m sqlacodegen "mssql+pyodbc://user:pass@code-crafting-lab-db.database.windows.net:1433/coding-craftlab-storage?driver=ODBC+Driver+17+for+SQL+Server&Encrypt=yes&TrustServerCertificate=Yes&ConnectionTimeout=30" --outfile models.py   
+python -m sqlacodegen "mssql+pyodbc://pn-gaston:bHL#&0nrbghTJ9v&Qtxj@code-crafting-lab-db.database.windows.net:1433/coding-craftlab-storage?driver=ODBC+Driver+17+for+SQL+Server&Encrypt=yes&TrustServerCertificate=Yes&ConnectionTimeout=30" --outfile models.py   

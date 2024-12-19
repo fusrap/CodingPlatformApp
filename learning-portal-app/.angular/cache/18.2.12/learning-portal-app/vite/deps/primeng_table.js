@@ -3,67 +3,23 @@ import {
   AngleRightIcon
 } from "./chunk-RICF42CW.js";
 import {
-  InputText,
-  InputTextModule
-} from "./chunk-CDXZLZWM.js";
-import {
-  ButtonDirective,
-  ButtonModule
-} from "./chunk-N4TWFXQ6.js";
-import {
   ChevronDownIcon,
   Dropdown,
   DropdownModule,
   Scroller,
   ScrollerModule
-} from "./chunk-7PMINCDB.js";
-import "./chunk-VFDOX5PS.js";
-import {
-  TimesIcon
-} from "./chunk-JHAWIJ3F.js";
-import {
-  SpinnerIcon
-} from "./chunk-LRBCLOFW.js";
-import {
-  AutoFocus,
-  AutoFocusModule
-} from "./chunk-YRJPWTUB.js";
-import {
-  Ripple,
-  RippleModule
-} from "./chunk-BIXBNA62.js";
-import {
-  ConnectedOverlayScrollHandler,
-  DomHandler
-} from "./chunk-BUGEQH7Q.js";
-import {
-  FilterMatchMode,
-  FilterOperator,
-  FilterService,
-  OverlayService,
-  PrimeNGConfig,
-  PrimeTemplate,
-  SharedModule,
-  TranslationKeys
-} from "./chunk-2OPVYNHI.js";
+} from "./chunk-2HIHDG6Q.js";
 import {
   CheckIcon
 } from "./chunk-OLOYBY5E.js";
+import "./chunk-36DBNV5O.js";
 import {
-  BaseIcon
-} from "./chunk-TB4DG5BW.js";
+  InputText,
+  InputTextModule
+} from "./chunk-SFBCPIGQ.js";
 import {
-  ObjectUtils,
-  UniqueComponentId,
-  zindexutils
-} from "./chunk-Q53QHQGR.js";
-import {
-  FormsModule,
-  NG_VALUE_ACCESSOR,
-  NgControl,
-  NgControlStatus,
-  NgModel
-} from "./chunk-OMHICF3O.js";
+  TimesIcon
+} from "./chunk-JHAWIJ3F.js";
 import {
   animate,
   state,
@@ -76,6 +32,35 @@ import {
 } from "./chunk-LLLEQC27.js";
 import "./chunk-753D2EG3.js";
 import {
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+  NgControl,
+  NgControlStatus,
+  NgModel
+} from "./chunk-OMHICF3O.js";
+import {
+  ButtonDirective,
+  ButtonModule
+} from "./chunk-QGAF33SW.js";
+import {
+  SpinnerIcon
+} from "./chunk-LRBCLOFW.js";
+import {
+  AutoFocus,
+  AutoFocusModule
+} from "./chunk-YRJPWTUB.js";
+import {
+  BaseIcon
+} from "./chunk-TB4DG5BW.js";
+import {
+  Ripple,
+  RippleModule
+} from "./chunk-VL7KSRSY.js";
+import {
+  ConnectedOverlayScrollHandler,
+  DomHandler
+} from "./chunk-BUGEQH7Q.js";
+import {
   CommonModule,
   DOCUMENT,
   NgClass,
@@ -87,6 +72,21 @@ import {
   NgTemplateOutlet,
   isPlatformBrowser
 } from "./chunk-OZ3E3JH7.js";
+import {
+  FilterMatchMode,
+  FilterOperator,
+  FilterService,
+  OverlayService,
+  PrimeNGConfig,
+  PrimeTemplate,
+  SharedModule,
+  TranslationKeys
+} from "./chunk-LCUN46FU.js";
+import {
+  ObjectUtils,
+  UniqueComponentId,
+  zindexutils
+} from "./chunk-Q53QHQGR.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -2778,7 +2778,7 @@ var Calendar = class _Calendar {
     return new Date(dateMeta.year, dateMeta.month, dateMeta.day);
   }
   formatDateKey(date) {
-    return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   }
   setCurrentHourPM(hours) {
     if (this.hourFormat == "12") {
@@ -7148,7 +7148,7 @@ var InputNumber = class _InputNumber {
       return;
     }
     this.lastValue = event2.target.value;
-    if (event2.shiftKey || event2.altKey) {
+    if (event2.shiftKey || event2.altKey || event2.key === "Dead") {
       this.isSpecialChar = true;
       return;
     }
@@ -7306,9 +7306,17 @@ var InputNumber = class _InputNumber {
       char = this._decimalChar;
       code = char.charCodeAt(0);
     }
-    const newValue = this.parseValue(this.input.nativeElement.value + char);
+    const {
+      value,
+      selectionStart,
+      selectionEnd
+    } = this.input.nativeElement;
+    const newValue = this.parseValue(value + char);
     const newValueStr = newValue != null ? newValue.toString() : "";
-    if (this.maxlength && this.getSelectedText()?.length == this.maxlength) {
+    const selectedValue = value.substring(selectionStart, selectionEnd);
+    const selectedValueParsed = this.parseValue(selectedValue);
+    const selectedValueStr = selectedValueParsed != null ? selectedValueParsed.toString() : "";
+    if (selectionStart !== selectionEnd && selectedValueStr.length > 0) {
       this.insert(event2, char, {
         isDecimalSign,
         isMinusSign
@@ -7324,9 +7332,6 @@ var InputNumber = class _InputNumber {
         isMinusSign
       });
     }
-  }
-  getSelectedText() {
-    return window?.getSelection()?.toString().replaceAll(/[^0-9']/g, "") || "";
   }
   onPaste(event2) {
     if (!this.disabled && !this.readonly) {
@@ -7795,7 +7800,7 @@ var InputNumber = class _InputNumber {
     features: [ɵɵProvidersFeature([INPUTNUMBER_VALUE_ACCESSOR]), ɵɵInputTransformsFeature, ɵɵNgOnChangesFeature],
     decls: 7,
     vars: 43,
-    consts: [["input", ""], [3, "ngClass", "ngStyle"], ["pInputText", "", "role", "spinbutton", "inputmode", "decimal", "pAutoFocus", "", 3, "input", "keydown", "keypress", "paste", "click", "focus", "blur", "ngClass", "ngStyle", "value", "disabled", "readonly", "autofocus"], [4, "ngIf"], ["class", "p-inputnumber-button-group", 4, "ngIf"], ["type", "button", "pButton", "", "class", "p-button-icon-only", "tabindex", "-1", 3, "ngClass", "class", "disabled", "mousedown", "mouseup", "mouseleave", "keydown", "keyup", 4, "ngIf"], [3, "ngClass", "click", 4, "ngIf"], ["class", "p-inputnumber-clear-icon", 3, "click", 4, "ngIf"], [3, "click", "ngClass"], [1, "p-inputnumber-clear-icon", 3, "click"], [4, "ngTemplateOutlet"], [1, "p-inputnumber-button-group"], ["type", "button", "pButton", "", "tabindex", "-1", 1, "p-button-icon-only", 3, "mousedown", "mouseup", "mouseleave", "keydown", "keyup", "ngClass", "disabled"], [3, "ngClass", 4, "ngIf"], [3, "ngClass"]],
+    consts: [["input", ""], [3, "ngClass", "ngStyle"], ["pInputText", "", "role", "spinbutton", "inputmode", "decimal", "pAutoFocus", "", 3, "input", "keydown", "keypress", "paste", "click", "focus", "blur", "ngClass", "ngStyle", "value", "disabled", "readonly", "autofocus"], [4, "ngIf"], ["class", "p-inputnumber-button-group", 4, "ngIf"], ["type", "button", "pButton", "", "class", "p-button-icon-only", "tabindex", "0", 3, "ngClass", "class", "disabled", "mousedown", "mouseup", "mouseleave", "keydown", "keyup", 4, "ngIf"], [3, "ngClass", "click", 4, "ngIf"], ["class", "p-inputnumber-clear-icon", 3, "click", 4, "ngIf"], [3, "click", "ngClass"], [1, "p-inputnumber-clear-icon", 3, "click"], [4, "ngTemplateOutlet"], [1, "p-inputnumber-button-group"], ["type", "button", "pButton", "", "tabindex", "0", 1, "p-button-icon-only", 3, "mousedown", "mouseup", "mouseleave", "keydown", "keyup", "ngClass", "disabled"], [3, "ngClass", 4, "ngIf"], [3, "ngClass"]],
     template: function InputNumber_Template(rf, ctx) {
       if (rf & 1) {
         const _r1 = ɵɵgetCurrentView();
@@ -7924,7 +7929,7 @@ var InputNumber = class _InputNumber {
                     class="p-button-icon-only"
                     [class]="incrementButtonClass"
                     [disabled]="disabled"
-                    tabindex="-1"
+                    tabindex="0"
                     (mousedown)="onUpButtonMouseDown($event)"
                     (mouseup)="onUpButtonMouseUp()"
                     (mouseleave)="onUpButtonMouseLeave()"
@@ -7946,7 +7951,7 @@ var InputNumber = class _InputNumber {
                     class="p-button-icon-only"
                     [class]="decrementButtonClass"
                     [disabled]="disabled"
-                    tabindex="-1"
+                    tabindex="0"
                     [attr.aria-hidden]="true"
                     (mousedown)="onDownButtonMouseDown($event)"
                     (mouseup)="onDownButtonMouseUp()"
@@ -7970,7 +7975,7 @@ var InputNumber = class _InputNumber {
                 [class]="incrementButtonClass"
                 class="p-button-icon-only"
                 [disabled]="disabled"
-                tabindex="-1"
+                tabindex="0"
                 [attr.aria-hidden]="true"
                 (mousedown)="onUpButtonMouseDown($event)"
                 (mouseup)="onUpButtonMouseUp()"
@@ -7993,7 +7998,7 @@ var InputNumber = class _InputNumber {
                 class="p-button-icon-only"
                 [class]="decrementButtonClass"
                 [disabled]="disabled"
-                tabindex="-1"
+                tabindex="0"
                 [attr.aria-hidden]="true"
                 (mousedown)="onDownButtonMouseDown($event)"
                 (mouseup)="onDownButtonMouseUp()"
@@ -12239,7 +12244,7 @@ function ColumnFilterFormElement_ng_container_0_Template(rf, ctx) {
   if (rf & 2) {
     const ctx_r0 = ɵɵnextContext();
     ɵɵadvance();
-    ɵɵproperty("ngTemplateOutlet", ctx_r0.filterTemplate)("ngTemplateOutletContext", ɵɵpureFunctionV(2, _c36, [ctx_r0.filterConstraint.value, ctx_r0.filterCallback, ctx_r0.type, ctx_r0.field, ctx_r0.filterConstraint, ctx_r0.placeholder, ctx_r0.minFractionDigits, ctx_r0.maxFractionDigits, ctx_r0.prefix, ctx_r0.suffix, ctx_r0.locale, ctx_r0.localeMatcher, ctx_r0.currency, ctx_r0.currencyDisplay, ctx_r0.useGrouping, ctx_r0.showButtons]));
+    ɵɵproperty("ngTemplateOutlet", ctx_r0.filterTemplate)("ngTemplateOutletContext", ɵɵpureFunctionV(2, _c36, [ctx_r0.filterConstraint == null ? null : ctx_r0.filterConstraint.value, ctx_r0.filterCallback, ctx_r0.type, ctx_r0.field, ctx_r0.filterConstraint, ctx_r0.placeholder, ctx_r0.minFractionDigits, ctx_r0.maxFractionDigits, ctx_r0.prefix, ctx_r0.suffix, ctx_r0.locale, ctx_r0.localeMatcher, ctx_r0.currency, ctx_r0.currencyDisplay, ctx_r0.useGrouping, ctx_r0.showButtons]));
   }
 }
 function ColumnFilterFormElement_ng_template_1_input_1_Template(rf, ctx) {
@@ -14316,7 +14321,7 @@ var Table = class _Table {
   }
   onColumnResizeBegin(event2) {
     let containerLeft = DomHandler.getOffset(this.containerViewChild?.nativeElement).left;
-    this.resizeColumnElement = event2.target.parentElement;
+    this.resizeColumnElement = event2.target.closest("th");
     this.columnResizing = true;
     if (event2.type == "touchstart") {
       this.lastResizerHelperX = event2.changedTouches[0].clientX - containerLeft + this.containerViewChild?.nativeElement.scrollLeft;
@@ -14339,20 +14344,21 @@ var Table = class _Table {
     this.resizeHelperViewChild.nativeElement.style.display = "block";
   }
   onColumnResizeEnd() {
-    let delta = this.resizeHelperViewChild?.nativeElement.offsetLeft - this.lastResizerHelperX;
-    let columnWidth = this.resizeColumnElement.offsetWidth;
-    let newColumnWidth = columnWidth + delta;
-    let minWidth = this.resizeColumnElement.style.minWidth.replace(/[^\d.]/g, "") || 15;
+    const delta = this.resizeHelperViewChild?.nativeElement.offsetLeft - this.lastResizerHelperX;
+    const columnWidth = this.resizeColumnElement.offsetWidth;
+    const newColumnWidth = columnWidth + delta;
+    const elementMinWidth = this.resizeColumnElement.style.minWidth.replace(/[^\d.]/g, "");
+    const minWidth = elementMinWidth ? parseFloat(elementMinWidth) : 15;
     if (newColumnWidth >= minWidth) {
       if (this.columnResizeMode === "fit") {
-        let nextColumn = this.resizeColumnElement.nextElementSibling;
-        let nextColumnWidth = nextColumn.offsetWidth - delta;
+        const nextColumn = this.resizeColumnElement.nextElementSibling;
+        const nextColumnWidth = nextColumn.offsetWidth - delta;
         if (newColumnWidth > 15 && nextColumnWidth > 15) {
           this.resizeTableCells(newColumnWidth, nextColumnWidth);
         }
       } else if (this.columnResizeMode === "expand") {
         this._initialColWidths = this._totalTableWidth();
-        let tableWidth = this.tableViewChild?.nativeElement.offsetWidth + delta;
+        const tableWidth = this.tableViewChild?.nativeElement.offsetWidth + delta;
         this.setResizeTableWidth(tableWidth + "px");
         this.resizeTableCells(newColumnWidth, null);
       }
@@ -18939,7 +18945,7 @@ var ColumnFilter = class _ColumnFilter {
     this.hide();
   }
   isRowMatchModeSelected(matchMode) {
-    return this.dt.filters[this.field].matchMode === matchMode;
+    return this.dt.filters[this.field]?.matchMode === matchMode;
   }
   addConstraint() {
     this.dt.filters[this.field].push({
@@ -19664,7 +19670,7 @@ var ColumnFilterFormElement = class _ColumnFilterFormElement {
                 *ngTemplateOutlet="
                     filterTemplate;
                     context: {
-                        $implicit: filterConstraint.value,
+                        $implicit: filterConstraint?.value,
                         filterCallback: filterCallback,
                         type: type,
                         field: field,

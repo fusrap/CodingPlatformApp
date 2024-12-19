@@ -29,13 +29,10 @@ export class AuthService {
       tap((response) => {
         const token = response.access_token;
   
-        // Store the token in local storage
         localStorage.setItem(this.tokenKey, token);
   
-        // Decode the token
         const decodedToken: any = jwtDecode(token);
   
-        // Access the role_id from the nested sub object
         sessionStorage.setItem('email', decodedToken.sub.email);
         sessionStorage.setItem('role', decodedToken.sub.role_id.toString());
       }),
@@ -54,5 +51,9 @@ export class AuthService {
 
   logout() {
     sessionStorage.clear();
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey); 
   }
 }

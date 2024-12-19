@@ -2,12 +2,6 @@ import {
   DomHandler
 } from "./chunk-BUGEQH7Q.js";
 import {
-  PrimeTemplate
-} from "./chunk-2OPVYNHI.js";
-import {
-  UniqueComponentId
-} from "./chunk-Q53QHQGR.js";
-import {
   CommonModule,
   DOCUMENT,
   NgClass,
@@ -15,6 +9,12 @@ import {
   NgTemplateOutlet,
   isPlatformBrowser
 } from "./chunk-OZ3E3JH7.js";
+import {
+  PrimeTemplate
+} from "./chunk-LCUN46FU.js";
+import {
+  UniqueComponentId
+} from "./chunk-Q53QHQGR.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -175,16 +175,34 @@ var ScrollPanel = class _ScrollPanel {
     let container = this.containerViewChild.nativeElement;
     let content = this.contentViewChild.nativeElement;
     let xBar = this.xBarViewChild.nativeElement;
-    let totalWidth = content.scrollWidth;
-    let ownWidth = content.clientWidth;
-    let bottom = (container.clientHeight - xBar.clientHeight) * -1;
-    this.scrollXRatio = ownWidth / totalWidth;
     let yBar = this.yBarViewChild.nativeElement;
-    let totalHeight = content.scrollHeight;
-    let ownHeight = content.clientHeight;
-    let right = (container.clientWidth - yBar.clientWidth) * -1;
-    this.scrollYRatio = ownHeight / totalHeight;
+    function computeBarPosition() {
+      let totalWidth = content.scrollWidth;
+      let ownWidth = content.clientWidth;
+      let bottom = (container.clientHeight - xBar.clientHeight) * -1;
+      this.scrollXRatio = ownWidth / totalWidth;
+      let totalHeight = content.scrollHeight;
+      let ownHeight = content.clientHeight;
+      let right = (container.clientWidth - yBar.clientWidth) * -1;
+      this.scrollYRatio = ownHeight / totalHeight;
+      return {
+        totalWidth,
+        ownWidth,
+        bottom,
+        totalHeight,
+        ownHeight,
+        right
+      };
+    }
     this.requestAnimationFrame(() => {
+      let {
+        totalWidth,
+        ownWidth,
+        bottom,
+        totalHeight,
+        ownHeight,
+        right
+      } = computeBarPosition.call(this);
       if (this.scrollXRatio >= 1) {
         xBar.setAttribute("data-p-scrollpanel-hidden", "true");
         DomHandler.addClass(xBar, "p-scrollpanel-hidden");
