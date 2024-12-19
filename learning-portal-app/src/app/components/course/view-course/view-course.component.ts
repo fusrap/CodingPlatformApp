@@ -91,7 +91,6 @@ export class ViewCourseComponent {
     this.isProcessing = true;
     this.courseService.enrollInCourse(Number(this.courseId)).subscribe({
       next: (response) => {
-        alert(response.message);
         this.isEnrolled = true;
         this.isProcessing = false;
       },
@@ -106,7 +105,6 @@ export class ViewCourseComponent {
     this.isProcessing = true;
     this.courseService.unenrollFromCourse(Number(this.courseId)).subscribe({
       next: (response) => {
-        alert(response.message);
         this.isEnrolled = false;
         this.isProcessing = false;
       },

@@ -3,7 +3,12 @@
 <div class="p-grid p-justify-center p-mt-5">
   <div class="p-col-12 p-md-8">
     @if (isLoading) {
-      <p-progressSpinner></p-progressSpinner>
+      <div class="flex justify-content-center align-items-center min-h-screen">
+        <div class="text-center">
+          <p-progressSpinner></p-progressSpinner>
+          <p class="p-mt-3">Henter kursus</p>
+        </div>
+      </div>
     } @else if (errorMessage) {
       <p-message severity="error">{{ errorMessage }}</p-message>
     } @else {
