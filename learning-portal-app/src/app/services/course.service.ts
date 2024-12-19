@@ -16,6 +16,21 @@ export class CourseService {
     private authService: AuthService
   ) {}
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.authService.getToken();
+    if (!token) {
+      throw new Error('Brugeren er ikke logget ind eller token mangler');
+    }
+
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+  }
+
+  private buildUrl(endpoint: string): string {
+    return `${this.baseUrl}${endpoint}`;
+  }
+
   saveCourse(course: Course): Observable<Course> {
     const url = `${this.baseUrl}/course`;
     return this.http.post<Course>(url, course); 
@@ -43,65 +58,26 @@ export class CourseService {
   }
 
   enrollInCourse(courseId: number): Observable<any> {
-    const token = this.authService.getToken(); 
-    if (!token) {
-      throw new Error('Brugeren er ikke logget ind eller token mangler');
-    }
-  
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}` 
-    });
-  
-    const url = `${this.baseUrl}/course/enrollment/${courseId}`;
-    return this.http.post(url, {}, { headers }); 
+    const headers = this.getAuthHeaders();
+    const url = this.buildUrl(`/course/enrollment/${courseId}`);
+    return this.http.post(url, {}, { headers });
   }
-  
 
   unenrollFromCourse(courseId: number): Observable<any> {
-    const token = this.authService.getToken();
-    if (!token) {
-      throw new Error('Brugeren er ikke logget ind eller token mangler');
-    }
-  
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}` 
-    });
-  
-    const url = `${this.baseUrl}/course/enrollment/${courseId}`;
-    return this.http.delete(url, { headers }); 
+    const headers = this.getAuthHeaders();
+    const url = this.buildUrl(`/course/enrollment/${courseId}`);
+    return this.http.delete(url, { headers });
   }
-  
-  
+
   getEnrollmentStatus(courseId: number): Observable<{ status: string }> {
-    const token = this.authService.getToken();
-    if (!token) {
-      throw new Error('Brugeren er ikke logget ind eller token mangler');
-    }
-  
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-  
-    const url = `${this.baseUrl}/course/enrollment/${courseId}`;
+    const headers = this.getAuthHeaders();
+    const url = this.buildUrl(`/course/enrollment/${courseId}`);
     return this.http.get<{ status: string }>(url, { headers });
   }
 
   completeCourse(courseId: number): Observable<any> {
-    const token = this.authService.getToken();
-    if (!token) {
-      throw new Error('Brugeren er ikke logget ind eller token mangler');
-    }
-  
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-    
-    const url = `${this.baseUrl}/course/enrollment/${courseId}/complete`;
-    
+    const headers = this.getAuthHeaders();
+    const url = this.buildUrl(`/course/enrollment/${courseId}/complete`);
     return this.http.post(url, {}, { headers });
   }
-  
-  
-  
-
 }
