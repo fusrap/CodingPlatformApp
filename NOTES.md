@@ -165,3 +165,9 @@ select * from Subjects
 
 migration:
 python -m sqlacodegen "mssql+pyodbc://pn-gaston:bHL#&0nrbghTJ9v&Qtxj@code-crafting-lab-db.database.windows.net:1433/coding-craftlab-storage?driver=ODBC+Driver+17+for+SQL+Server&Encrypt=yes&TrustServerCertificate=Yes&ConnectionTimeout=30" --outfile models.py   
+
+
+## Kilder
+
+401 auth error
+https://dev.to/cezar-plescan/error-handling-with-angular-interceptors-2548 

@@ -2,19 +2,19 @@ import {
   DomHandler
 } from "./chunk-BUGEQH7Q.js";
 import {
+  PrimeTemplate
+} from "./chunk-DVEU4MWR.js";
+import {
+  UniqueComponentId
+} from "./chunk-Q53QHQGR.js";
+import {
   CommonModule,
   DOCUMENT,
   NgClass,
   NgStyle,
   NgTemplateOutlet,
   isPlatformBrowser
-} from "./chunk-OZ3E3JH7.js";
-import {
-  PrimeTemplate
-} from "./chunk-LCUN46FU.js";
-import {
-  UniqueComponentId
-} from "./chunk-Q53QHQGR.js";
+} from "./chunk-MSQZQWNC.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -54,8 +54,10 @@ import {
   ɵɵrestoreView,
   ɵɵtemplate,
   ɵɵviewQuery
-} from "./chunk-43623GOX.js";
-import "./chunk-ZSY7TSMJ.js";
+} from "./chunk-KIHTX5Y7.js";
+import "./chunk-5OPE3T2R.js";
+import "./chunk-4N4GOYJH.js";
+import "./chunk-FHTVLBLO.js";
 import "./chunk-WDMUDEB6.js";
 
 // node_modules/primeng/fesm2022/primeng-scrollpanel.mjs
@@ -175,34 +177,16 @@ var ScrollPanel = class _ScrollPanel {
     let container = this.containerViewChild.nativeElement;
     let content = this.contentViewChild.nativeElement;
     let xBar = this.xBarViewChild.nativeElement;
+    let totalWidth = content.scrollWidth;
+    let ownWidth = content.clientWidth;
+    let bottom = (container.clientHeight - xBar.clientHeight) * -1;
+    this.scrollXRatio = ownWidth / totalWidth;
     let yBar = this.yBarViewChild.nativeElement;
-    function computeBarPosition() {
-      let totalWidth = content.scrollWidth;
-      let ownWidth = content.clientWidth;
-      let bottom = (container.clientHeight - xBar.clientHeight) * -1;
-      this.scrollXRatio = ownWidth / totalWidth;
-      let totalHeight = content.scrollHeight;
-      let ownHeight = content.clientHeight;
-      let right = (container.clientWidth - yBar.clientWidth) * -1;
-      this.scrollYRatio = ownHeight / totalHeight;
-      return {
-        totalWidth,
-        ownWidth,
-        bottom,
-        totalHeight,
-        ownHeight,
-        right
-      };
-    }
+    let totalHeight = content.scrollHeight;
+    let ownHeight = content.clientHeight;
+    let right = (container.clientWidth - yBar.clientWidth) * -1;
+    this.scrollYRatio = ownHeight / totalHeight;
     this.requestAnimationFrame(() => {
-      let {
-        totalWidth,
-        ownWidth,
-        bottom,
-        totalHeight,
-        ownHeight,
-        right
-      } = computeBarPosition.call(this);
       if (this.scrollXRatio >= 1) {
         xBar.setAttribute("data-p-scrollpanel-hidden", "true");
         DomHandler.addClass(xBar, "p-scrollpanel-hidden");
