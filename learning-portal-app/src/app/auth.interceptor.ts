@@ -12,17 +12,16 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-
   constructor(private router: Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
-          console.warn('Unauthorized access - redirecting to login.');
-          this.router.navigate(['/login']); 
+          console.warn('Unauthorized access - redirecting to session expired dialog.');
+          this.router.navigate(['/session-expired']);
         }
-        return throwError(error); 
+        return throwError(() => error);
       })
     );
   }

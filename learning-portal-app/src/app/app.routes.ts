@@ -9,6 +9,7 @@ import { CreateJeopardyComponent } from './components/games/jeopardy/create-jeop
 import { ViewJeopardyComponent } from './components/games/jeopardy/view-jeopardy/view-jeopardy.component';
 import { ViewCourseComponent } from './components/course/view-course/view-course.component';
 import { PlayJeopardyComponent } from './components/games/jeopardy/play-jeopardy/play-jeopardy.component';
+import { SessionExpiredDialogComponent } from './components/dialogs/session-expired-dialog/session-expired-dialog.component';
 
 export const routes: Routes = [
     {
@@ -58,4 +59,5 @@ export const routes: Routes = [
         path: 'unauthorized',
         component: UnauthorizedComponent, 
     },
+    { path: 'session-expired', component: SessionExpiredDialogComponent },
 ];

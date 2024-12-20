@@ -1,0 +1,10 @@
+<p-dialog [(visible)]="visible" [modal]="true" [closable]="false" header="Session Udløbet" [style]="{ width: '400px' }">
+    <div class="p-grid p-dir-col p-align-center p-justify-center">
+      <p>Din session er udløbet. Log venligst ind igen.</p>
+      <div class="p-d-flex p-jc-center p-mt-3">
+        <button pButton type="button" label="Log ind" class="p-button-primary p-mr-2" (click)="onLogin()"></button>
+        <button pButton type="button" label="Luk" class="p-button-secondary" (click)="onClose()"></button>
+      </div>
+    </div>
+  </p-dialog>
+  
