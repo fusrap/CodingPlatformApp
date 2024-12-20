@@ -83,7 +83,7 @@ export class CourseService {
 
   isCourseCompleted(courseId: number): Observable<{ completed: boolean }> {
     const headers = this.getAuthHeaders();
-    const url = this.buildUrl(`/course/enrollment/${courseId}/completion-status`); 
+    const url = this.buildUrl(`/course/enrollment/${courseId}/complete`); 
     return this.http.get<{ completed: boolean }>(url, { headers }).pipe(
       catchError((err) => {
         console.error('Fejl ved kontrol af kursus fuldførelse:', err);

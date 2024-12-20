@@ -171,3 +171,5 @@ python -m sqlacodegen "mssql+pyodbc://pn-gaston:bHL#&0nrbghTJ9v&Qtxj@code-crafti
 
 401 auth error
 https://dev.to/cezar-plescan/error-handling-with-angular-interceptors-2548 
+https://dev.to/bytebantz/angulars-17-interceptors-complete-tutorial-220k
+https://medium.com/ngconf/routing-to-angular-material-dialogs-c3fb7231c177
