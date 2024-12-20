@@ -11,6 +11,16 @@
       </div>
     } @else if (errorMessage) {
       <p-message severity="error">{{ errorMessage }}</p-message>
+    } @else if (isCourseCompleted) {
+      <p-card>
+        <div class="p-card-header" style="display: flex; align-items: center; justify-content: space-between;">
+          <h1 style="margin: 0;">Kurset er allerede fuldført!</h1>
+          <p-button severity="info" [raised]="true" icon="pi pi-home" label="Tilbage til kurser" [routerLink]="['/home']"></p-button>
+        </div>
+        <div class="p-card-body">
+          <p>Tak for din indsats! Du har allerede gennemført dette kursus.</p>
+        </div>
+      </p-card>
     } @else {
       <p-card>
         <div class="p-card-header" style="display: flex; align-items: center; justify-content: space-between;">
@@ -64,8 +74,7 @@
   </div>
 </div>
 
-<p-dialog [(visible)]="isCourseCompleted" header="Kurset er fuldført">
+<p-dialog [(visible)]="isCourseCompletedDialogVisible" header="Kurset er fuldført">
   <p>Tillykke! Du har fuldført kurset.</p>
-  <p-button label="OK" (click)="isCourseCompleted = false"></p-button>
+  <p-button label="OK" (click)="isCourseCompletedDialogVisible = false"></p-button>
 </p-dialog>
-

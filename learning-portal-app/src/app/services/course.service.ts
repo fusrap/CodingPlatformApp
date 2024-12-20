@@ -80,4 +80,16 @@ export class CourseService {
     const url = this.buildUrl(`/course/enrollment/${courseId}/complete`);
     return this.http.post(url, {}, { headers });
   }
+
+  isCourseCompleted(courseId: number): Observable<{ completed: boolean }> {
+    const headers = this.getAuthHeaders();
+    const url = this.buildUrl(`/course/enrollment/${courseId}/completion-status`); 
+    return this.http.get<{ completed: boolean }>(url, { headers }).pipe(
+      catchError((err) => {
+        console.error('Fejl ved kontrol af kursus fuldførelse:', err);
+        return throwError(() => new Error('Kunne ikke kontrollere kursus fuldførelse'));
+      })
+    );
+  }
+  
 }

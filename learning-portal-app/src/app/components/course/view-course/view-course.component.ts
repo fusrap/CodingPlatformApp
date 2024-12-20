@@ -34,136 +34,147 @@ import { DialogModule } from 'primeng/dialog';
   templateUrl: './view-course.component.html',
 })
 export class ViewCourseComponent {
-  courseId: string | null = null;
-  courseData: ExtendedCourse | null = null;
-  isLoading: boolean = true;
-  isProcessing: boolean = false;
-  errorMessage: string = '';
-  isEnrolled: boolean | null = null;
-  isCourseCompleted: boolean = false;
-
-  maxScore: number = 0;
-  currentScore: number = 0;
+    courseId: string | null = null;
+    courseData: ExtendedCourse | null = null;
+    isLoading: boolean = true;
+    isProcessing: boolean = false;
+    errorMessage: string = '';
+    isEnrolled: boolean | null = null;
+    isCourseCompleted: boolean = false;
+    isCourseCompletedDialogVisible: boolean = false; // Ny variabel til at styre dialogboksens synlighed
   
-
-  constructor(private route: ActivatedRoute, private courseService: CourseService) {}
-
-  ngOnInit() {
-    this.courseId = this.route.snapshot.paramMap.get('id');
-    if (this.courseId) {
-      this.loadCourseData();
-    }
-  }
-
-  loadCourseData() {
-    this.courseService.getCourseById(this.courseId!).subscribe({
-      next: (data: { course: Course }) => {
-        const extendedElements = data.course.elements.map((element) => {
-          if (element.type === 'Input') {
-            return {
-              ...element,
-              userAnswer: '',
-              isCorrect: null,
-            } as ExtendedInputElement;
-          }
-          return element as ExtendedTextElement;
-        });
-        this.courseData = {
-          ...data.course,
-          elements: extendedElements,
-        } as ExtendedCourse;
-
-        this.maxScore = extendedElements.filter(
-          (element) => element.type === 'Input'
-        ).length;
+    maxScore: number = 0;
+    currentScore: number = 0;
   
-        this.isLoading = false;
-        this.checkEnrollmentStatus();
-      },
-      error: () => {
-        this.errorMessage = 'Kunne ikke hente kursusdata.';
-        this.isLoading = false;
-      },
-    });
-  }
+    constructor(private route: ActivatedRoute, private courseService: CourseService) {}
   
-
-  checkEnrollmentStatus() {
-    this.courseService.getEnrollmentStatus(Number(this.courseId)).subscribe({
-      next: (response) => {
-        this.isEnrolled = response.status === 'Enrolled';
-      },
-      error: () => {
-        this.isEnrolled = null;
-      },
-    });
-  }
-
-  enroll() {
-    this.isProcessing = true;
-    this.courseService.enrollInCourse(Number(this.courseId)).subscribe({
-      next: () => {
-        this.isEnrolled = true;
-        this.isProcessing = false;
-      },
-      error: () => {
-        alert('Der opstod en fejl under tilmelding.');
-        this.isProcessing = false;
-      },
-    });
-  }
-
-  unenroll() {
-    this.isProcessing = true;
-    this.courseService.unenrollFromCourse(Number(this.courseId)).subscribe({
-      next: () => {
-        this.isEnrolled = false;
-        this.isProcessing = false;
-      },
-      error: () => {
-        alert('Der opstod en fejl under afmelding.');
-        this.isProcessing = false;
-      },
-    });
-  }
-
-  checkAnswer(element: ExtendedInputElement) {
-    if (element.userAnswer?.trim().toLowerCase() === element.answer.trim().toLowerCase()) {
-      if (element.isCorrect === null || element.isCorrect === false) {
-        this.currentScore++; 
+    ngOnInit() {
+      this.courseId = this.route.snapshot.paramMap.get('id');
+      if (this.courseId) {
+        this.loadCourseData();
+        this.checkCourseCompletion();
       }
-      element.isCorrect = true;
-    } else {
-      if (element.isCorrect === true) {
-        this.currentScore--; 
-      }
-      element.isCorrect = false;
     }
   
-    if (this.currentScore === this.maxScore) {
-      this.markCourseAsCompleted();
+    checkCourseCompletion() {
+      this.courseService.isCourseCompleted(Number(this.courseId)).subscribe({
+        next: (response) => {
+          this.isCourseCompleted = response.completed;
+        },
+        error: (err) => {
+          console.error('Fejl ved tjek af kursus fuldførelse:', err);
+          this.isCourseCompleted = false;
+        },
+      });
+    }
+  
+    loadCourseData() {
+      this.courseService.getCourseById(this.courseId!).subscribe({
+        next: (data: { course: Course }) => {
+          const extendedElements = data.course.elements.map((element) => {
+            if (element.type === 'Input') {
+              return {
+                ...element,
+                userAnswer: '',
+                isCorrect: null,
+              } as ExtendedInputElement;
+            }
+            return element as ExtendedTextElement;
+          });
+          this.courseData = {
+            ...data.course,
+            elements: extendedElements,
+          } as ExtendedCourse;
+  
+          this.maxScore = extendedElements.filter(
+            (element) => element.type === 'Input'
+          ).length;
+  
+          this.isLoading = false;
+          this.checkEnrollmentStatus();
+        },
+        error: () => {
+          this.errorMessage = 'Kunne ikke hente kursusdata.';
+          this.isLoading = false;
+        },
+      });
+    }
+  
+    checkEnrollmentStatus() {
+      this.courseService.getEnrollmentStatus(Number(this.courseId)).subscribe({
+        next: (response) => {
+          this.isEnrolled = response.status === 'Enrolled';
+        },
+        error: () => {
+          this.isEnrolled = null;
+        },
+      });
+    }
+  
+    enroll() {
+      this.isProcessing = true;
+      this.courseService.enrollInCourse(Number(this.courseId)).subscribe({
+        next: () => {
+          this.isEnrolled = true;
+          this.isProcessing = false;
+        },
+        error: () => {
+          alert('Der opstod en fejl under tilmelding.');
+          this.isProcessing = false;
+        },
+      });
+    }
+  
+    unenroll() {
+      this.isProcessing = true;
+      this.courseService.unenrollFromCourse(Number(this.courseId)).subscribe({
+        next: () => {
+          this.isEnrolled = false;
+          this.isProcessing = false;
+        },
+        error: () => {
+          alert('Der opstod en fejl under afmelding.');
+          this.isProcessing = false;
+        },
+      });
+    }
+  
+    checkAnswer(element: ExtendedInputElement) {
+      if (element.userAnswer?.trim().toLowerCase() === element.answer.trim().toLowerCase()) {
+        if (element.isCorrect === null || element.isCorrect === false) {
+          this.currentScore++;
+        }
+        element.isCorrect = true;
+      } else {
+        if (element.isCorrect === true) {
+          this.currentScore--;
+        }
+        element.isCorrect = false;
+      }
+  
+      if (this.currentScore === this.maxScore) {
+        this.markCourseAsCompleted();
+      }
+    }
+  
+    markCourseAsCompleted() {
+      this.courseService.completeCourse(Number(this.courseId)).subscribe({
+        next: () => {
+          this.isCourseCompletedDialogVisible = true; // Vis dialogboks
+        },
+        error: (error) => {
+          console.log(error);
+          alert('Der opstod en fejl under registrering af gennemførelsen.');
+        },
+      });
+    }
+  
+    isTextElement(element: ExtendedContentElement): element is ExtendedTextElement {
+      return element.type === 'Text';
+    }
+  
+    isInputElement(element: ExtendedContentElement): element is ExtendedInputElement {
+      return element.type === 'Input';
     }
   }
-
-  markCourseAsCompleted() {
-    this.courseService.completeCourse(Number(this.courseId)).subscribe({
-      next: () => {
-        alert('Tillykke! Du har fuldført kurset!');
-      },
-      error: (error) => {
-        console.log(error)
-        alert('Der opstod en fejl under registrering af gennemførelsen.');
-      }
-    });
-  }
   
-  
-
-  isTextElement(element: ExtendedContentElement): element is ExtendedTextElement {
-    return element.type === 'Text';
-  }
-
-  isInputElement(element: ExtendedContentElement): element is ExtendedInputElement {
-    return element.type === 'Input';
-  }
-}
