@@ -17,6 +17,7 @@ import { JeopardyService } from '../../services/jeopardy.service';
 import { User } from '../../interfaces/auth';
 import { Course } from '../../interfaces/course';
 import { Jeopardy } from '../../interfaces/jeopardy';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -31,6 +32,7 @@ import { Jeopardy } from '../../interfaces/jeopardy';
     ButtonModule,
     RippleModule,
     RouterModule,
+    FormsModule
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
@@ -42,9 +44,11 @@ export class HomeComponent implements OnInit {
   private router = inject(Router);
 
   combinedList: any[] = [];
+  filteredCombinedList: any[] = []; 
   selectedItem: any | null = null;
   users: User[] = [];
   roleId: number = -1;
+  searchQuery: string = ''; 
 
   ngOnInit() {
     this.initializeUserRole();
@@ -55,7 +59,7 @@ export class HomeComponent implements OnInit {
   }
 
   onRowSelect(event: any) {
-    const selectedItem = event.data; 
+    const selectedItem = event.data;
     if (selectedItem.type === 'course') {
       this.router.navigate(['/course', selectedItem.id]);
     } else if (selectedItem.type === 'jeopardy') {
@@ -100,7 +104,21 @@ export class HomeComponent implements OnInit {
 
   private updateCombinedList(data: any[]) {
     this.combinedList = [...this.combinedList, ...data];
+    this.filteredCombinedList = [...this.combinedList]; 
   }
+
+  filterData() {
+    const query = this.searchQuery.trim().toLowerCase();
+    if (!query) {
+      this.filteredCombinedList = [...this.combinedList]; 
+      return;
+    }
+    this.filteredCombinedList = this.combinedList.filter((item) =>
+      (item.courseTitle || item.title || '').toLowerCase().includes(query) ||
+      (item.courseDescription || item.description || '').toLowerCase().includes(query)
+    );
+  }
+
   removeItem(item: any) {
     if (item.type === 'course') {
       this.deleteCourse(item);
@@ -115,15 +133,16 @@ export class HomeComponent implements OnInit {
       error: (err) => this.handleError('course deletion', err),
     });
   }
+
   private deleteJeopardy(jeopardy: Jeopardy) {
     this.jeopardyService.deleteJeopardyById(jeopardy.id).subscribe({
       next: () => this.removeFromCombinedList(jeopardy.id),
       error: (err) => this.handleError('Jeopardy deletion', err),
     });
   }
-  
+
   private removeFromCombinedList(itemId: number) {
     this.combinedList = this.combinedList.filter((item) => item.id !== itemId);
+    this.filterData(); 
   }
-
 }

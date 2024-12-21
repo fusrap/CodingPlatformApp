@@ -27,15 +27,16 @@ export class AuthService {
   
     return this.http.post<any>(`${this.baseUrl}/login`, loginPayload).pipe(
       tap((response) => {
-        const token = response.access_token;
+        const accessToken = response.access_token;
+        const refreshToken = response.refresh_token;
   
-        // Store the token in local storage
-        localStorage.setItem(this.tokenKey, token);
+        // Gem access og refresh tokens
+        localStorage.setItem(this.tokenKey, accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
   
-        // Decode the token
-        const decodedToken: any = jwtDecode(token);
+        const decodedToken: any = jwtDecode(accessToken);
   
-        // Access the role_id from the nested sub object
+        // Gem brugeroplysninger
         sessionStorage.setItem('email', decodedToken.sub.email);
         sessionStorage.setItem('role', decodedToken.sub.role_id.toString());
       }),
@@ -43,6 +44,7 @@ export class AuthService {
       catchError(() => of(false))
     );
   }
+  
   
   getUserRole(): string | null {
     return sessionStorage.getItem('role');
@@ -55,4 +57,50 @@ export class AuthService {
   logout() {
     sessionStorage.clear();
   }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey); 
+  }
+
+  refreshToken(): Observable<boolean> {
+    const token = this.getToken();
+    console.log("refreshToken called. Current token:", token);
+  
+    if (!token) {
+      console.warn("No token found in localStorage.");
+      return of(false);
+    }
+  
+    return this.http.post<any>(
+      `${this.baseUrl}/refresh-token`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('refreshToken')}`
+        }
+      }
+    ).pipe(
+      tap((response) => {
+        console.log("Token refresh successful. New token:", response.access_token);
+    
+        const newToken = response.access_token;
+        localStorage.setItem(this.tokenKey, newToken);
+    
+        const decodedToken: any = jwtDecode(newToken);
+        sessionStorage.setItem('email', decodedToken.sub.email);
+        sessionStorage.setItem('role', decodedToken.sub.role_id.toString());
+      }),
+      map(() => true),
+      catchError((error) => {
+        console.error("Token refresh failed. Error:", error);
+        return of(false);
+      })
+    );
+    
+  }
+  
+  
+  
+  
+  
 }

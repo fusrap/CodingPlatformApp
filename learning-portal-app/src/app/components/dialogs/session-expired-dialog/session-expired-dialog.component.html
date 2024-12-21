@@ -1,0 +1,23 @@
+<p-dialog [(visible)]="visible" [modal]="true" [closable]="false" header="Session Udløbet" [style]="{ width: '400px' }">
+    <div class="p-grid p-dir-col p-align-center p-justify-center">
+      <p>Din session er udløbet. Du kan opdatere din session eller logge ud.</p>
+      <div class="p-d-flex p-jc-center p-mt-3">
+        <button 
+          pButton 
+          type="button" 
+          label="Opdater Session" 
+          class="p-button-primary p-mr-2" 
+          (click)="onRefresh()" 
+          [disabled]="isRefreshing">
+        </button>
+        <button 
+          pButton 
+          type="button" 
+          label="Log ind" 
+          class="p-button-secondary p-mr-2" 
+          (click)="onLogin()">
+        </button>
+      </div>
+    </div>
+  </p-dialog>
+  

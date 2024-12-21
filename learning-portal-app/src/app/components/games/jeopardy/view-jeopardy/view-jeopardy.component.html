@@ -1,1 +1,65 @@
-<p>view-jeopardy works! id: {{jeopardyId}}</p>
+<app-header></app-header>
+<div class="flex justify-content-center align-items-center min-h-screen">
+  <p-card header="Jeopardy Spil" class="w-11 sm:w-10 lg:w-9 xl:w-8 max-w-5xl p-shadow-6">
+    @if (jeopardyData) {
+      <div class="text-center mb-4">
+        <h2 class="p-text-bold text-3xl">{{ jeopardyData.title }}</h2>
+        <p>{{ jeopardyData.description || 'Ingen beskrivelse tilgængelig' }}</p>
+      </div>
+
+      <div class="text-center mb-4">
+        <h3>Vælg antal hold</h3>
+        <p-dropdown 
+          [options]="teamOptions" 
+          [(ngModel)]="selectedTeams" 
+          placeholder="Antal hold" 
+          class="w-10rem"
+          (onChange)="onTeamChange($event)">
+        </p-dropdown>
+      </div>
+
+      <div class="text-center mb-4">
+        <p-button 
+          label="Start Spillet" 
+          class="p-button-success text-xl"
+          [disabled]="selectedTeams === 0"
+          (click)="startGame()">
+        </p-button>
+      </div>
+      
+      
+
+      <div class="flex justify-content-center">
+        <table class="p-datatable p-datatable-striped p-datatable-gridlines text-center"
+               style="table-layout: fixed; width: 100%;">
+          <thead>
+            <tr>
+              @for (subject of jeopardyData.subjects; track $index) {
+                <th class="p-p-3 bg-primary text-white text-uppercase">
+                  {{ subject }}
+                </th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of jeopardyData.grid; track $index) {
+              <tr>
+                @for (cell of row; track $index) {
+                  <td class="p-p-3 p-text-bold p-shadow-2" style="word-wrap: break-word;">
+                    <div class="text-xl">{{ cell.value }}</div>
+                    <small>Q: {{ cell.question }}</small><br />
+                    <small>A: {{ cell.answer }}</small>
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else {
+      <div class="text-center p-text-bold">
+        <p>Ingen data fundet for dette Jeopardy-spil.</p>
+      </div>
+    }
+  </p-card>
+</div>
