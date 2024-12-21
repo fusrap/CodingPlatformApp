@@ -160,7 +160,7 @@ export class ViewCourseComponent {
     markCourseAsCompleted() {
       this.courseService.completeCourse(Number(this.courseId)).subscribe({
         next: () => {
-          this.isCourseCompletedDialogVisible = true; // Vis dialogboks
+          this.isCourseCompletedDialogVisible = true; 
         },
         error: (error) => {
           console.log(error);

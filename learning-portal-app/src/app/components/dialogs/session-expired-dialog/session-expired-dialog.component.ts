@@ -35,15 +35,15 @@ export class SessionExpiredDialogComponent {
   
         if (success) {
           console.log("Token refreshed successfully. Closing dialog.");
-          this.visible = false; // Luk dialogen
+          this.visible = false; 
         } else {
           console.error("Token refresh failed. Redirecting to login.");
-          this.router.navigate(['/login']); // Naviger til login-siden
+          this.router.navigate(['/login']); 
         }
       },
       (error) => {
         console.error("Error occurred during token refresh:", error);
-        this.router.navigate(['/login']); // Naviger til login-siden
+        this.router.navigate(['/login']); 
       }
     );
   }
