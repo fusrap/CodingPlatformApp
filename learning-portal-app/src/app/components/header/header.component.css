@@ -1,0 +1,16 @@
+.user-xp-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .user-xp-container span {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  p-progressBar {
+    width: 150px;
+    height: 20px;
+  }
+  

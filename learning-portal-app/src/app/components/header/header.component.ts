@@ -1,21 +1,35 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenubarModule } from 'primeng/menubar';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { GamificationService } from '../../services/gamification.service';
+
+interface XPResponse {
+  totalXP: number;
+}
+
+
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [
     MenubarModule,
+    ProgressBarModule,
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
   private router = inject(Router);
+  private gamificationService = inject(GamificationService);
 
   userRole: string | null = null;
-  
+  totalXP: number = 0;
+  currentLevel: number = 0;
+  remainingXP: number = 0;
+  progress: number = 0;
+
   items: any[] = [];
   
   constructor() {}
@@ -23,6 +37,9 @@ export class HeaderComponent {
   ngOnInit() {
     this.userRole = sessionStorage.getItem('role');
     console.log('User Role:', this.userRole);
+
+    this.fetchUserXP();
+
     this.items = [
       {
         label: 'Home',
@@ -39,7 +56,6 @@ export class HeaderComponent {
             icon: 'pi pi-plus', 
             routerLink: '/create-course'
           }
-
         ]
       },
       {
@@ -66,8 +82,33 @@ export class HeaderComponent {
         command: () => this.logout(),
       },
     ];
-    
   }
+
+
+  fetchUserXP() {
+    this.gamificationService.getCurrentUserTotalXP().subscribe({
+      next: (response) => {
+        this.totalXP = response['total_xp'] || 0; 
+  
+        this.currentLevel = Math.floor(this.totalXP / 1000);
+  
+        this.remainingXP = this.totalXP % 1000;
+  
+        this.progress = (this.remainingXP / 1000) * 100;
+      },
+      error: (err) => {
+        console.error('Error fetching user XP:', err);
+  
+        this.totalXP = 0;
+        this.currentLevel = 0;
+        this.remainingXP = 0;
+        this.progress = 0;
+      },
+    });
+  }
+  
+  
+
 
   logout() {
     sessionStorage.clear();

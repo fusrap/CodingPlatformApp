@@ -36,14 +36,15 @@ export class GamificationService {
     return this.http.post(url, body, { headers });
   }
   
-  
   getTotalXP(userId: number): Observable<{ totalXP: number }> {
     const headers = this.getAuthHeaders();
     const url = this.buildUrl(`/xp/${userId}/total`); 
     return this.http.get<{ totalXP: number }>(url, { headers });
   }
 
-  getCurrentUserTotalXP(): Observable<{ totalXP: number }> {
+  getCurrentUserTotalXP(): Observable<{
+    [x: string]: number; totalXP: number 
+}> {
     const headers = this.getAuthHeaders();
     const url = this.buildUrl(`/xp/total`); 
     return this.http.get<{ totalXP: number }>(url, { headers });
