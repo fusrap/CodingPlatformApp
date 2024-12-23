@@ -76,5 +76,7 @@
 
 <p-dialog [(visible)]="isCourseCompletedDialogVisible" header="Kurset er fuldført">
   <p>Tillykke! Du har fuldført kurset.</p>
-  <p-button label="OK" (click)="isCourseCompletedDialogVisible = false"></p-button>
+  <p>Du har optjent {{ earnedXP }} XP!</p>
+  <p-button label="OK" (click)="completeCourse()"></p-button>
 </p-dialog>
+
