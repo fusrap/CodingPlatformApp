@@ -13,7 +13,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideAnimations(),
     //{ provide: BASE_URL, useValue: 'http://localhost:3000' }, 
-    { provide: BASE_URL, useValue: 'http://localhost:8000' }, 
+    { provide: BASE_URL, useValue: 'http://codewebapi.azurewebsites.net' }, 
+    //{ provide: BASE_URL, useValue: 'http://localhost:8000' }, 
     { provide: TOKEN_KEY, useValue: 'authToken' },
     provideHttpClient(withInterceptorsFromDi()),
     {
