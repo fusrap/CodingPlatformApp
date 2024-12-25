@@ -157,9 +157,23 @@ CREATE TABLE StudentCourseElement (
 );
 
 
+
+
+
 select * from Jeopardy
 select * from JeopardyCells
 select * from Subjects
+
+
+CREATE TABLE UserXP (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    user_id INT NOT NULL FOREIGN KEY REFERENCES Account(account_id),
+    course_id BIGINT NOT NULL FOREIGN KEY REFERENCES Course(course_id),
+    xp_earned INT NOT NULL,
+    earned_date DATETIME DEFAULT GETDATE()
+);
+
+select * from UserXP
 
 ## DB Migration
 

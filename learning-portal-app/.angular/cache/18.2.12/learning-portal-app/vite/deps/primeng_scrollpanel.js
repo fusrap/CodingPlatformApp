@@ -2,12 +2,6 @@ import {
   DomHandler
 } from "./chunk-BUGEQH7Q.js";
 import {
-  PrimeTemplate
-} from "./chunk-DVEU4MWR.js";
-import {
-  UniqueComponentId
-} from "./chunk-Q53QHQGR.js";
-import {
   CommonModule,
   DOCUMENT,
   NgClass,
@@ -15,6 +9,12 @@ import {
   NgTemplateOutlet,
   isPlatformBrowser
 } from "./chunk-MSQZQWNC.js";
+import {
+  PrimeTemplate
+} from "./chunk-DVEU4MWR.js";
+import {
+  UniqueComponentId
+} from "./chunk-Q53QHQGR.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,

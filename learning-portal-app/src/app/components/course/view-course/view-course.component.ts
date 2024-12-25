@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CourseService } from '../../../services/course.service';
 import { Message } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
@@ -13,6 +13,7 @@ import { ExtendedContentElement, ExtendedInputElement, ExtendedTextElement } fro
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
+import { GamificationService } from '../../../services/gamification.service';
 
 
 @Component({
@@ -28,12 +29,12 @@ import { DialogModule } from 'primeng/dialog';
     CardModule,
     InputTextModule,
     RouterLink,
-    DialogModule
-      
+    DialogModule,
   ],
   templateUrl: './view-course.component.html',
 })
 export class ViewCourseComponent {
+
     courseId: string | null = null;
     courseData: ExtendedCourse | null = null;
     isLoading: boolean = true;
@@ -41,12 +42,13 @@ export class ViewCourseComponent {
     errorMessage: string = '';
     isEnrolled: boolean | null = null;
     isCourseCompleted: boolean = false;
-    isCourseCompletedDialogVisible: boolean = false; // Ny variabel til at styre dialogboksens synlighed
+    isCourseCompletedDialogVisible: boolean = false; 
   
     maxScore: number = 0;
     currentScore: number = 0;
+    earnedXP: number = 0;
   
-    constructor(private route: ActivatedRoute, private courseService: CourseService) {}
+    constructor(private route: ActivatedRoute, private courseService: CourseService, private gamificationService: GamificationService, private router: Router) {}
   
     ngOnInit() {
       this.courseId = this.route.snapshot.paramMap.get('id');
@@ -151,23 +153,38 @@ export class ViewCourseComponent {
         }
         element.isCorrect = false;
       }
-  
+    
       if (this.currentScore === this.maxScore) {
+        this.calculateXP(); 
         this.markCourseAsCompleted();
       }
-    }
+    }  
   
     markCourseAsCompleted() {
       this.courseService.completeCourse(Number(this.courseId)).subscribe({
         next: () => {
-          this.isCourseCompletedDialogVisible = true; 
+          this.updateXP(); 
+          this.isCourseCompletedDialogVisible = true;
         },
         error: (error) => {
-          console.log(error);
+          console.error('Fejl under afslutning af kurset:', error);
           alert('Der opstod en fejl under registrering af gennemførelsen.');
         },
       });
     }
+    
+    updateXP() {
+      this.gamificationService.addXP(Number(this.courseId), this.earnedXP).subscribe({
+        next: (response) => {
+          console.log('XP gemt i databasen:', response);
+        },
+        error: (err) => {
+          console.error('Fejl ved opdatering af XP:', err);
+          alert('Kunne ikke gemme XP.');
+        }
+      });
+    }
+    
   
     isTextElement(element: ExtendedContentElement): element is ExtendedTextElement {
       return element.type === 'Text';
@@ -175,6 +192,17 @@ export class ViewCourseComponent {
   
     isInputElement(element: ExtendedContentElement): element is ExtendedInputElement {
       return element.type === 'Input';
+    }
+
+    completeCourse() {
+      this.isCourseCompletedDialogVisible = false;
+      this.router.navigate(['/']); 
+    }
+
+    calculateXP() {
+      const baseXP = 350;
+      const xpPerInput = 75;
+      this.earnedXP = baseXP + this.maxScore * xpPerInput;
     }
   }
   

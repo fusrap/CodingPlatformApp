@@ -36,6 +36,7 @@ export class SessionExpiredDialogComponent {
         if (success) {
           console.log("Token refreshed successfully. Closing dialog.");
           this.visible = false; 
+          this.router.navigate(['/']);
         } else {
           console.error("Token refresh failed. Redirecting to login.");
           this.router.navigate(['/login']); 

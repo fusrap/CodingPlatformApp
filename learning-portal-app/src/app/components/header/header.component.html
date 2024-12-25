@@ -1,5 +1,10 @@
 <p-menubar [model]="items">
   <ng-template pTemplate="end">
+    <div class="user-xp-container">
+      <span>Level {{ currentLevel }}</span>
+      <p-progressBar [value]="progress"></p-progressBar>
+      <span>{{ remainingXP }}/1000 XP</span>
+    </div>
     @if (userRole) {
       <div>
         <span>{{ userRole }}</span>
