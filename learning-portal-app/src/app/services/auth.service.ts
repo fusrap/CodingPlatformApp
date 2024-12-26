@@ -30,13 +30,11 @@ export class AuthService {
         const accessToken = response.access_token;
         const refreshToken = response.refresh_token;
   
-        // Gem access og refresh tokens
         localStorage.setItem(this.tokenKey, accessToken);
         localStorage.setItem('refreshToken', refreshToken);
   
         const decodedToken: any = jwtDecode(accessToken);
   
-        // Gem brugeroplysninger
         sessionStorage.setItem('email', decodedToken.sub.email);
         sessionStorage.setItem('role', decodedToken.sub.role_id.toString());
       }),
