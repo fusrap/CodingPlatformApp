@@ -10,6 +10,7 @@ import { ViewJeopardyComponent } from './components/games/jeopardy/view-jeopardy
 import { ViewCourseComponent } from './components/course/view-course/view-course.component';
 import { PlayJeopardyComponent } from './components/games/jeopardy/play-jeopardy/play-jeopardy.component';
 import { SessionExpiredDialogComponent } from './components/dialogs/session-expired-dialog/session-expired-dialog.component';
+import { HelpComponent } from './components/help/help.component';
 
 export const routes: Routes = [
     {
@@ -29,6 +30,11 @@ export const routes: Routes = [
     {
         path: 'register',
         component: RegisterComponent
+    },
+    {
+        path: 'documentation',
+        component: HelpComponent,
+        canActivate: [authGuard],
     },
     {
         path: 'create-course',

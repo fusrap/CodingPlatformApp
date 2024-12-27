@@ -8,8 +8,6 @@ interface XPResponse {
   totalXP: number;
 }
 
-
-
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -77,6 +75,11 @@ export class HeaderComponent {
         routerLink: '',
       },
       {
+        label: 'Vejledning',
+        icon: 'pi pi-book',
+        routerLink: '/documentation',
+      },
+      {
         label: 'Log ud',
         icon: 'pi pi-sign-out',
         command: () => this.logout(),
@@ -106,9 +109,6 @@ export class HeaderComponent {
       },
     });
   }
-  
-  
-
 
   logout() {
     sessionStorage.clear();

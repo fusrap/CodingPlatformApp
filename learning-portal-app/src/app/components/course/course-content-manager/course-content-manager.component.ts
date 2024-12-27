@@ -18,11 +18,14 @@ import { ButtonGroupModule } from 'primeng/buttongroup';
 import { TextElementComponent } from '../elements/text-element/text-element.component';
 import { ContentElement, ContentType, InputElement, TextElement } from '../../../interfaces/content-element';
 import { InputElementComponent } from '../elements/input-element/input-element.component';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-course-content-manager',
   standalone: true,
-  imports: [FormsModule, DropdownModule, ButtonModule, ButtonGroupModule],
+  imports: [FormsModule, DropdownModule, ButtonModule, ButtonGroupModule,
+    DialogModule
+  ],
   templateUrl: './course-content-manager.component.html',
   styleUrls: ['./course-content-manager.component.css'],
 })
@@ -33,8 +36,8 @@ export class CourseContentManagerComponent implements OnInit, AfterViewInit {
   container!: ViewContainerRef;
 
   elementTypes = [
-    { name: 'TextArea', type: ContentType.Text, value: TextElementComponent },
-    { name: 'Input', type: ContentType.Input, value: InputElementComponent },
+    { name: 'Tekst felt', type: ContentType.Text, value: TextElementComponent },
+    { name: 'Svar/Spørgsmål', type: ContentType.Input, value: InputElementComponent },
   ];
 
   selectedElementType: any | undefined;
@@ -59,9 +62,6 @@ export class CourseContentManagerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  /**
-   * Adds a new element to the dynamic container
-   */
   addElement() {
     if (this.selectedElementType && this.isContainerReady) {
       const componentType = this.selectedElementType.value as Type<TextElementComponent | InputElementComponent>;
@@ -71,7 +71,6 @@ export class CourseContentManagerComponent implements OnInit, AfterViewInit {
       const newElement = this.createElement(this.selectedElementType.type);
       newElement.componentRef = componentRef;
 
-      // Assign properties to the instance and bind events
       instance.id = newElement.id;
       instance.isEditing = newElement.isEditing;
 
@@ -101,7 +100,7 @@ export class CourseContentManagerComponent implements OnInit, AfterViewInit {
 
       this.elements.push(newElement);
       this.elementsChange.emit([...this.elements]);
-      this.cdr.detectChanges(); // Trigger change detection to ensure UI reflects updates
+      this.cdr.detectChanges();
 
       console.log('Added element:', newElement);
     } else {
@@ -109,9 +108,6 @@ export class CourseContentManagerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  /**
-   * Removes an element by ID
-   */
   removeElement(id: number) {
     const elementIndex = this.elements.findIndex((el) => el.id === id);
 
@@ -126,16 +122,14 @@ export class CourseContentManagerComponent implements OnInit, AfterViewInit {
       }
 
       this.elementsChange.emit([...this.elements]);
-      this.cdr.detectChanges(); // Trigger change detection
+      this.cdr.detectChanges(); 
       console.log('Removed element with ID:', id, 'Updated elements:', this.elements);
     } else {
       console.error(`Element with ID ${id} not found.`);
     }
   }
 
-  /**
-   * Rebuilds the elements from the current elements list
-   */
+
   private rebuildElements() {
     if (!this.isContainerReady || !this.container) {
       console.error('Container is not ready for rebuilding elements.');
@@ -162,7 +156,7 @@ export class CourseContentManagerComponent implements OnInit, AfterViewInit {
       element.componentRef = componentRef;
 
       instance.id = element.id;
-      instance.isEditing = element.isEditing; // Ensure editing state persists
+      instance.isEditing = element.isEditing;
 
       if (this.isTextElement(element)) {
         const textElement = element as TextElement;
@@ -194,14 +188,11 @@ export class CourseContentManagerComponent implements OnInit, AfterViewInit {
     console.log('Rebuilt all elements.');
   }
 
-  /**
-   * Creates a new element object
-   */
   private createElement(type: ContentType): ContentElement {
     const baseElement: ContentElement = {
       id: Date.now(),
-      isEditing: true, // Default to editable when first created
-      type, // Using ContentType enum
+      isEditing: true, 
+      type, 
     };
 
     if (type === ContentType.Text) {
@@ -219,5 +210,24 @@ export class CourseContentManagerComponent implements OnInit, AfterViewInit {
 
   private isInputElement(element: ContentElement): element is InputElement {
     return element.type === ContentType.Input;
+  }
+
+  displayHelpDialog: boolean = false;
+
+  sections = [
+    { title: 'Text Element', id: 'text-element' },
+    { title: 'Input Element', id: 'input-element' },
+    { title: 'General Usage', id: 'general-usage' },
+  ];
+
+  openHelpDialog() {
+    this.displayHelpDialog = true;
+  }
+
+  scrollToSection(id: string) {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 }

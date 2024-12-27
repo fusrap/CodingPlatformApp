@@ -1,65 +1,5 @@
-<ng-container #dynamicContainer></ng-container>
-@if(elements.length == 0) {
-    <div class="flex align-items-center">
-        <h3>Tilføj elementer til dit kursus</h3>
-    </div>
-} @else {
-    <div class="flex align-items-center">
-        <h3>Tilføj nyt elementer</h3>
-    </div>
-}
-
-  
-  <div class="flex align-items-center gap-3" style="display: flex; width: 100%;">
-    <div style="flex: 5;">
-      <p-dropdown 
-          [options]="elementTypes"
-          [(ngModel)]="selectedElementType"
-          optionLabel="name"
-          class="w-full"
-          styleClass="w-full"
-          [filter]="true"
-          filterBy="name"
-          [showClear]="true"
-          placeholder="Vælg et element">
-              <ng-template pTemplate="selectedItem" let-selectedOption>
-                  <div class="flex align-items-center gap-2">
-                      <div>{{ selectedOption.name }}</div>
-                  </div>
-              </ng-template>
-      </p-dropdown>
-    </div>
-    <div style="flex: 3;">
-      <button 
-          pButton 
-          label="Tilføj"
-          icon="pi pi-plus"
-          class="p-button-success w-full"
-          (click)="addElement()"
-          [disabled]="!selectedElementType">
-      </button>
-    </div>
-    <div style="flex: 2;">
-      <button 
-      pButton 
-      label="Hjælp" 
-      icon="pi pi-question-circle" 
-      class="p-button-secondary w-full" 
-      (click)="openHelpDialog()">
-      </button>
-    </div>
-  </div>
-  
-
-  <p-dialog
-  [(visible)]="displayHelpDialog"
-  header="Hjælp"
-  [style]="{ width: '70vw', height: '80vh' }"
-  [modal]="true"
-  [closable]="true"
-  [draggable]="false"
-  [resizable]="false">
-  <div class="grid">
+<app-header></app-header>
+<div class="grid">
     <div class="col-3 surface-100 border-right-1 border-gray-300 p-3">
       <h3>Indhold</h3>
       <ul class="list-none p-0">
@@ -108,13 +48,45 @@
             Gem kursus
           </button>
         </li>
-      </ul>
-    </div>
+        <li class="mt-4">
+            <h5>Jeopardy</h5>
+            <ul class="list-none p-0 pl-3">
+              <li>
+                <button 
+                  pButton 
+                  type="button" 
+                  class="p-button-link w-full text-left" 
+                  (click)="scrollToSection('jeopardy-intro')">
+                  Introduktion
+                </button>
+              </li>
+              <li>
+                <button 
+                  pButton 
+                  type="button" 
+                  class="p-button-link w-full text-left" 
+                  (click)="scrollToSection('jeopardy-create')">
+                  Opret Jeopardy
+                </button>
+              </li>
+              <li>
+                <button 
+                  pButton 
+                  type="button" 
+                  class="p-button-link w-full text-left" 
+                  (click)="scrollToSection('jeopardy-manage')">
+                  Administrer Spil
+                </button>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
 
     <div class="col-9 p-3 overflow-y-auto" style="max-height: 70vh;">
       <section id="create-course">
         <h4>Opret et Kursus</h4>
-        <img src="opret_kursus.png" alt="Opret Kursus Billede" class="w-full mb-3 border-round shadow-2" style="max-height: 800px; object-fit: cover;" />
+        <img src="opret_kursus.png" alt="Opret Kursus Billede" class="w-full mb-3 border-round shadow-2" style="max-width: 60%; height: auto; display: block; margin: 0 auto;"  />
 
       
         <p>For at oprette et nyt kursus skal du navigere til "Opret Kursus"-siden i menuen.</p>
@@ -137,7 +109,7 @@
 
       <section id="tilfoj-elementer">
         <h4>Tilføj Elementer</h4>
-        <img src="opret_elementer.png" alt="Opret Kursus Billede" class="w-full mb-3 border-round shadow-2" style="max-height: 800px; object-fit: cover;" />
+        <img src="opret_elementer.png" alt="Opret Kursus Billede" class="w-full mb-3 border-round shadow-2" style="max-width: 60%; height: auto; display: block; margin: 0 auto;" />
         <p>Brug denne sektion til at tilføje forskellige typer af elementer til dit kursus. Følg disse trin:</p>
         <ol>
           <li>
@@ -167,7 +139,7 @@
           src="tekst_element.png" 
           alt="Tekst Element Billede" 
           class="w-full mb-3 border-round shadow-2" 
-          style="max-width: 50%; height: auto; display: block; margin: 0 auto;" 
+          style="max-width: 60%; height: auto; display: block; margin: 0 auto;" 
         />
         <p>
           Tekstfeltet giver dig mulighed for at tilføje længere tekstblokke til dit kursus. Det kan bruges til at præsentere baggrundsinformation, teori, praktiske eksempler eller vejledning for kursusdeltagerne. Dette gør det muligt at strukturere kurset på en måde, der er informativ og engagerende.
@@ -260,8 +232,26 @@
           style="max-width: 60%; height: auto; display: block; margin: 0 auto;" 
         />
       </section>
+
+      <section id="jeopardy-intro">
+        <h4>Introduktion</h4>
+        <p>Jeopardy-spillet er en interaktiv aktivitet, der engagerer kursusdeltagerne gennem spørgsmål og kategorier.</p>
+      </section>
+      <section id="jeopardy-create">
+        <h4>Opret Jeopardy</h4>
+        <p>For at oprette et nyt Jeopardy-spil skal du navigere til "Opret Jeopardy"-siden.</p>
+        <ol>
+          <li>Vælg kategorier og spørgsmål.</li>
+          <li>Tilføj pointværdier for hvert spørgsmål.</li>
+          <li>Klik på <strong>Gem</strong> for at færdiggøre spillet.</li>
+        </ol>
+      </section>
+      <section id="jeopardy-manage">
+        <h4>Administrer Spil</h4>
+        <p>Administrer eksisterende spil, rediger spørgsmål eller se tidligere resultater.</p>
+      </section>
       
     </div>
   </div>
-</p-dialog>
+
 
