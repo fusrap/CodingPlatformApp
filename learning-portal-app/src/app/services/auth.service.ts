@@ -53,6 +53,10 @@ export class AuthService {
     sessionStorage.clear();
   }
 
+  getUserEmail(): string | null {
+    return sessionStorage.getItem('email');
+  }  
+
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }

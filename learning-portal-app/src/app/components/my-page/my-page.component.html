@@ -1,0 +1,16 @@
+<app-header></app-header>
+<div class="xp-chart-container">
+    <div class="chart-wrapper">
+      <p-chart type="doughnut" [data]="chartData" [options]="chartOptions"></p-chart>
+      <div class="level-indicator">
+        <span>{{ currentLevel }}</span>
+      </div>
+    </div>
+    <div class="xp-details">
+      <p>Du mangler <strong>{{ 1000 - remainingXP }} XP</strong> for at nå level {{ currentLevel + 1 }}</p>
+    </div>
+    <div class="xp-motivation">
+      <p>Fortsæt det gode arbejde for at nå dit næste mål!</p>
+    </div>
+  </div>
+  

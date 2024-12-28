@@ -40,7 +40,7 @@ export class LoginComponent {
     this.authService.login(email, password).subscribe({
       next: (success: boolean) => {
         if (success) {
-          this.router.navigate(['home']);
+          this.router.navigate(['welcome']);
           this.invalidUSerLogin = false;
         } else {
           this.invalidUSerLogin = true;

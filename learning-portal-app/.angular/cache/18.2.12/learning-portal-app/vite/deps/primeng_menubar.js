@@ -3,16 +3,9 @@ import {
   AngleRightIcon
 } from "./chunk-E5AHE5DL.js";
 import {
-  RouterLink,
-  RouterLinkActive,
-  RouterModule
-} from "./chunk-H3WMTMCA.js";
-import {
   Tooltip,
   TooltipModule
 } from "./chunk-TVCQSL3B.js";
-import "./chunk-UUEXBTHO.js";
-import "./chunk-LPVFJZUA.js";
 import {
   BaseIcon
 } from "./chunk-35IBX52K.js";
@@ -23,6 +16,13 @@ import {
 import {
   DomHandler
 } from "./chunk-BUGEQH7Q.js";
+import {
+  RouterLink,
+  RouterLinkActive,
+  RouterModule
+} from "./chunk-H3WMTMCA.js";
+import "./chunk-UUEXBTHO.js";
+import "./chunk-LPVFJZUA.js";
 import {
   CommonModule,
   DOCUMENT,

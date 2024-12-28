@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MenubarModule } from 'primeng/menubar';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { GamificationService } from '../../services/gamification.service';
+import { ButtonModule } from 'primeng/button';
 
 interface XPResponse {
   totalXP: number;
@@ -14,6 +15,7 @@ interface XPResponse {
   imports: [
     MenubarModule,
     ProgressBarModule,
+    ButtonModule
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']

@@ -11,6 +11,8 @@ import { ViewCourseComponent } from './components/course/view-course/view-course
 import { PlayJeopardyComponent } from './components/games/jeopardy/play-jeopardy/play-jeopardy.component';
 import { SessionExpiredDialogComponent } from './components/dialogs/session-expired-dialog/session-expired-dialog.component';
 import { HelpComponent } from './components/help/help.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
+import { MyPageComponent } from './components/my-page/my-page.component';
 
 export const routes: Routes = [
     {
@@ -24,12 +26,22 @@ export const routes: Routes = [
         canActivate: [authGuard],
     },
     {
+        path: 'mypage',
+        component: MyPageComponent,
+        canActivate: [authGuard],
+    },
+    {
         path: 'login',
         component: LoginComponent
     },
     {
         path: 'register',
         component: RegisterComponent
+    },
+    {
+        path: 'welcome',
+        component: WelcomeComponent,
+        canActivate: [authGuard],
     },
     {
         path: 'documentation',
