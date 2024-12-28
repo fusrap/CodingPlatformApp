@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { BASE_URL } from '../app.tokens';
 import { catchError, map, Observable, of, throwError } from 'rxjs';
-import { Course } from '../interfaces/course';
+import { Course, ExtendedCourse } from '../interfaces/course';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -91,5 +91,19 @@ export class CourseService {
       })
     );
   }
+
+  getEnrolledCourses(): Observable<ExtendedCourse[]> {
+    const headers = this.getAuthHeaders();
+    const url = `${this.baseUrl}/course/enrollment/enrolled`; 
+    return this.http.get<{ courses: ExtendedCourse[] }>(url, { headers }).pipe(
+      map(response => response.courses),
+      catchError(err => {
+        console.error('Error fetching enrolled courses:', err);
+        return of([]);
+      })
+    );
+  }
+  
+  
   
 }

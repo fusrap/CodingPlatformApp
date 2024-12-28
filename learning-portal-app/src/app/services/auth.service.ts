@@ -20,6 +20,8 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/register`, postData);
   }
 
+  
+
   login(email: string, password: string): Observable<boolean> {
     const loginPayload = { email, password };
 

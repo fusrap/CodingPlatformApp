@@ -1,3 +1,4 @@
+/* Center og layout */
 .xp-chart-container {
     display: flex;
     flex-direction: column;
@@ -5,6 +6,7 @@
     margin-top: 50px;
   }
   
+  /* Cirkeldiagram */
   .chart-wrapper {
     position: relative;
     width: 200px;
@@ -39,6 +41,37 @@
     color: #777;
   }
   
+  /* Kurser */
+  .courses-container {
+    margin-top: 30px;
+    width: 80%;
+  }
+  
+  .courses-container h3 {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .course-item {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .course-name {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .course-description {
+    font-size: 14px;
+    color: #666;
+  }
+  
   @media (max-width: 768px) {
     .chart-wrapper {
       width: 150px;
@@ -48,5 +81,63 @@
     .xp-details {
       font-size: 14px;
     }
+  
+    .courses-container {
+      width: 100%;
+    }
+  }
+  
+  .xp-chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .xp-details,
+  .xp-motivation {
+    text-align: center;
+  }
+  
+  .level-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .formgrid {
+    gap: 1rem;
+  }
+  
+
+  .grid {
+    height: 100%; 
+  }
+  
+  .p-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+  
+  .sad-image {
+    width: 20%; 
+    height: auto; 
+    border-radius: 50%;
+    display: block; 
+    margin: 0 auto; 
+  }
+  
+  .centered-text {
+    text-align: center; 
+    margin: 20px 0; 
+  }
+  
+  .p-d-flex.p-jc-center.mt-3 {
+    justify-content: center; 
   }
   

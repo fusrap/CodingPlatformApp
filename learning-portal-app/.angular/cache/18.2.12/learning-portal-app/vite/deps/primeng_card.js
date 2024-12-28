@@ -1,11 +1,4 @@
 import {
-  CommonModule,
-  NgClass,
-  NgIf,
-  NgStyle,
-  NgTemplateOutlet
-} from "./chunk-MSQZQWNC.js";
-import {
   Footer,
   Header,
   PrimeTemplate,
@@ -14,6 +7,13 @@ import {
 import {
   ObjectUtils
 } from "./chunk-Q53QHQGR.js";
+import {
+  CommonModule,
+  NgClass,
+  NgIf,
+  NgStyle,
+  NgTemplateOutlet
+} from "./chunk-MSQZQWNC.js";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -46,8 +46,8 @@ import {
   ɵɵtext,
   ɵɵtextInterpolate1
 } from "./chunk-KIHTX5Y7.js";
-import "./chunk-5OPE3T2R.js";
 import "./chunk-4N4GOYJH.js";
+import "./chunk-5OPE3T2R.js";
 import "./chunk-FHTVLBLO.js";
 import "./chunk-WDMUDEB6.js";
 

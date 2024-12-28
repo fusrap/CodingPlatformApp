@@ -3,20 +3,39 @@ import { CommonModule } from '@angular/common';
 import { GamificationService } from '../../services/gamification.service';
 import { ChartModule } from 'primeng/chart';
 import { HeaderComponent } from '../header/header.component';
+import { CourseService } from '../../services/course.service';
+import { ExtendedCourse } from '../../interfaces/course';
+import { ListboxModule } from 'primeng/listbox';
+import { Router } from '@angular/router';
+import { CardModule } from 'primeng/card';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { UserService } from '../../services/user.service';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-my-page',
   standalone: true,
   imports: [
     CommonModule,
-     ChartModule,
-     HeaderComponent, 
-    ],
+    ChartModule,
+    HeaderComponent,
+    ListboxModule,
+    CardModule,
+    TableModule,
+    ButtonModule,
+    DialogModule,
+  ],
   templateUrl: './my-page.component.html',
   styleUrls: ['./my-page.component.css']
 })
+
 export class MyPageComponent implements OnInit {
   private gamificationService = inject(GamificationService);
+  private courseService = inject(CourseService);
+  private router = inject(Router);
+  private userService = inject(UserService)
+
 
   totalXP: number = 0;
   remainingXP: number = 0;
@@ -24,8 +43,47 @@ export class MyPageComponent implements OnInit {
   chartData: any;
   chartOptions: any;
 
+  isDialogVisible: boolean = false;
+
+  userInfo: { fullName: string; email: string; role: string } | null = null;
+  enrolledCourses: ExtendedCourse[] = [];
+  selectedCourse: ExtendedCourse | null = null;
+
   ngOnInit() {
+    this.fetchUserInfo();
     this.fetchUserXP();
+    this.fetchEnrolledCourses();
+  }
+
+  unenrollFromCourse(course: ExtendedCourse) {
+    if (confirm(`Er du sikker på, at du vil afmelde kurset: ${course.courseTitle}?`)) {
+      this.courseService.unenrollFromCourse(course.id).subscribe({
+        next: () => {
+          this.enrolledCourses = this.enrolledCourses.filter(c => c.id !== course.id);
+          alert(`Du er nu afmeldt fra kurset: ${course.courseTitle}`);
+        },
+        error: (err) => {
+          console.error('Error unenrolling from course:', err);
+          alert('Der opstod en fejl ved afmeldingen af kurset.');
+        },
+      });
+    }
+  }
+
+  navigateToCourse(event: any) {
+    const course = event.data;
+    this.router.navigate(['/course', course.id]);
+  }
+
+  fetchUserInfo() {
+    this.userService.getCurrentUser().subscribe({
+      next: (info) => {
+        this.userInfo = info;
+      },
+      error: (err) => {
+        console.error('Error fetching user info:', err);
+      }
+    });
   }
 
   fetchUserXP() {
@@ -45,7 +103,7 @@ export class MyPageComponent implements OnInit {
 
   updateChart() {
     this.chartData = {
-      labels: ['XP Earned', 'XP Remaining'],
+      labels: ['Point', 'XP Til næste level'],
       datasets: [
         {
           data: [this.remainingXP, 1000 - this.remainingXP],
@@ -77,4 +135,24 @@ export class MyPageComponent implements OnInit {
       }
     };
   }
+
+  fetchEnrolledCourses() {
+    this.courseService.getEnrolledCourses().subscribe({
+      next: (courses) => {
+        this.enrolledCourses = courses.filter(course => course.enrolled === true);
+      },
+      error: (err) => {
+        console.error('Error fetching enrolled courses:', err);
+      }
+    });
+  }
+
+  editDetails() {
+    this.isDialogVisible = true; 
+  }
+
+  closeDialog() {
+    this.isDialogVisible = false; 
+  }
+  
 }
