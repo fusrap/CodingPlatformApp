@@ -1,48 +1,69 @@
-<p-table
-  [value]="courses"
-  [scrollable]="true"
-  [scrollHeight]="'400px'"
-  [tableStyle]="{ 'min-width': '50rem' }"
-  selectionMode="single"
-  [(selection)]="selectedCourse"
-  (onRowSelect)="navigateToCourse($event.data.id)"
->
-  <ng-template pTemplate="header">
-    <tr>
-      <th>Titel</th>
-      <th>Beskrivelse</th>
-      <th>Oprettet</th>
-      <th></th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-course>
-    <tr [pSelectableRow]="course">
-      <td>{{ course.courseTitle }}</td>
-      <td>{{ course.courseDescription || 'Ingen beskrivelse' }}</td>
-      <td>{{ course.created || 'Ukendt' }}</td>
-      <td>
-        @if (!course.enrolled && !course.completed) {
-          <p-button
-            label="Tilmeld"
-            severity="success"
-            (click)="enrollInCourse(course)"
-          ></p-button>
-        }
-        @if (course.enrolled && !course.completed) {
-          <p-button
-            label="Afmeld"
-            severity="warning"
-            (click)="unenrollFromCourse(course)"
-          ></p-button>
-        }
-        @if (course.completed) {
-          <p-button
-            label="Gennemført"
-            severity="success"
-            disabled
-          ></p-button>
-        }
-      </td>
-    </tr>
-  </ng-template>
-</p-table>
+<app-header></app-header>
+
+<div class="flex justify-content-center align-items-center mt-4">
+  <div class="col-10 p-2">
+    <p-card header="Kursusoversigt" class="shadow-2">
+      <div class="mb-4">
+        <span class="p-input-icon-left w-full">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            placeholder="Søg kursus"
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="searchCourses()"
+            class="w-full"
+          />
+        </span>
+      </div>
+      <p-table
+        [value]="filteredCourses"
+        [scrollable]="true"
+        [scrollHeight]="'1200px'"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        selectionMode="single"
+        [(selection)]="selectedCourse"
+        (onRowSelect)="navigateToCourse($event.data.id)"
+        class="w-full"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="text-center">Titel</th>
+            <th class="text-center">Beskrivelse</th>
+            <th class="text-center">Oprettet</th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-course>
+          <tr [pSelectableRow]="course">
+            <td class="text-center">{{ course.courseTitle }}</td>
+            <td class="text-center">{{ course.courseDescription || 'Ingen beskrivelse' }}</td>
+            <td class="text-center">{{ course.created || 'Ukendt' }}</td>
+            <td class="text-center">
+              @if (!course.enrolled && !course.completed) {
+                <p-button
+                  label="Tilmeld"
+                  severity="success"
+                  (click)="enrollInCourse(course)"
+                ></p-button>
+              }
+              @if (course.enrolled && !course.completed) {
+                <p-button
+                  label="Afmeld"
+                  severity="warning"
+                  (click)="unenrollFromCourse(course)"
+                ></p-button>
+              }
+              @if (course.completed) {
+                <p-button
+                  label="Gennemført"
+                  severity="success"
+                  disabled
+                ></p-button>
+              }
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
+</div>
