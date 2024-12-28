@@ -1,0 +1,48 @@
+<p-table
+  [value]="courses"
+  [scrollable]="true"
+  [scrollHeight]="'400px'"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  selectionMode="single"
+  [(selection)]="selectedCourse"
+  (onRowSelect)="navigateToCourse($event.data.id)"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Titel</th>
+      <th>Beskrivelse</th>
+      <th>Oprettet</th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-course>
+    <tr [pSelectableRow]="course">
+      <td>{{ course.courseTitle }}</td>
+      <td>{{ course.courseDescription || 'Ingen beskrivelse' }}</td>
+      <td>{{ course.created || 'Ukendt' }}</td>
+      <td>
+        @if (!course.enrolled && !course.completed) {
+          <p-button
+            label="Tilmeld"
+            severity="success"
+            (click)="enrollInCourse(course)"
+          ></p-button>
+        }
+        @if (course.enrolled && !course.completed) {
+          <p-button
+            label="Afmeld"
+            severity="warning"
+            (click)="unenrollFromCourse(course)"
+          ></p-button>
+        }
+        @if (course.completed) {
+          <p-button
+            label="Gennemført"
+            severity="success"
+            disabled
+          ></p-button>
+        }
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

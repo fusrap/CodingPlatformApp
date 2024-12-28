@@ -13,6 +13,7 @@ import { SessionExpiredDialogComponent } from './components/dialogs/session-expi
 import { HelpComponent } from './components/help/help.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { MyPageComponent } from './components/my-page/my-page.component';
+import { CourseListComponent } from './components/course-list/course-list.component';
 
 export const routes: Routes = [
     {
@@ -46,6 +47,11 @@ export const routes: Routes = [
     {
         path: 'documentation',
         component: HelpComponent,
+        canActivate: [authGuard],
+    },
+    {
+        path: 'courses',
+        component: CourseListComponent,
         canActivate: [authGuard],
     },
     {

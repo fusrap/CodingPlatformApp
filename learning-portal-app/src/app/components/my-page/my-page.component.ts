@@ -12,6 +12,7 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { UserService } from '../../services/user.service';
 import { DialogModule } from 'primeng/dialog';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-my-page',
@@ -35,6 +36,7 @@ export class MyPageComponent implements OnInit {
   private courseService = inject(CourseService);
   private router = inject(Router);
   private userService = inject(UserService)
+  private authService = inject(AuthService);
 
 
   totalXP: number = 0;
@@ -45,6 +47,7 @@ export class MyPageComponent implements OnInit {
 
   isDialogVisible: boolean = false;
 
+  userRoleDescription: string = 'Ukendt'; 
   userInfo: { fullName: string; email: string; role: string } | null = null;
   enrolledCourses: ExtendedCourse[] = [];
   selectedCourse: ExtendedCourse | null = null;
@@ -73,17 +76,6 @@ export class MyPageComponent implements OnInit {
   navigateToCourse(event: any) {
     const course = event.data;
     this.router.navigate(['/course', course.id]);
-  }
-
-  fetchUserInfo() {
-    this.userService.getCurrentUser().subscribe({
-      next: (info) => {
-        this.userInfo = info;
-      },
-      error: (err) => {
-        console.error('Error fetching user info:', err);
-      }
-    });
   }
 
   fetchUserXP() {
@@ -143,6 +135,18 @@ export class MyPageComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching enrolled courses:', err);
+      }
+    });
+  }
+
+  fetchUserInfo() {
+    this.userService.getCurrentUser().subscribe({
+      next: (info) => {
+        this.userInfo = info;
+        this.userRoleDescription = this.authService.getCurrentRoleDescription(); 
+      },
+      error: (err) => {
+        console.error('Error fetching user info:', err);
       }
     });
   }

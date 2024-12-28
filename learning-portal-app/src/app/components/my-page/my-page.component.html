@@ -35,8 +35,13 @@
         </div>
         <div class="field col-12">
           <label for="role">Rolle</label>
-          <input id="role" type="text" [value]="userInfo?.role || 'Ukendt'" readonly
-            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+          <input
+            id="role"
+            type="text"
+            [value]="userRoleDescription || 'Ukendt'"
+            readonly
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          />
         </div>
         <div class="field col-12">
           <p-button

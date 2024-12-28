@@ -49,7 +49,7 @@ export class HeaderComponent {
       {
         label: 'Kurser',
         icon: 'pi pi-palette',
-        routerLink: '',
+        routerLink: '/courses',
         items: [
           {
             label: 'Nyt kursus', 

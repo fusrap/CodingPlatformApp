@@ -10,11 +10,18 @@ import { jwtDecode } from "jwt-decode";
 })
 export class AuthService {
 
+  private roles: { [key: number]: string } = {
+    0: 'Studerende',
+    1: 'Underviser',
+    2: 'Admin'
+  };
+
   constructor(
     private http: HttpClient, 
     @Inject(BASE_URL) private baseUrl: string, 
     @Inject(TOKEN_KEY) private tokenKey: string
   ) {}
+  
 
   registerUser(postData: RegisterPostData) {
     return this.http.post(`${this.baseUrl}/register`, postData);
@@ -43,9 +50,24 @@ export class AuthService {
     );
   }
 
-  getUserRole(): string | null {
-    return sessionStorage.getItem('role');
+  getRoleDescription(roleId: number): string {
+    return this.roles[roleId] || 'Ukendt';
   }
+
+  getCurrentRoleDescription(): string {
+    const role = this.getUserRole(); 
+    if (role === null) {
+      return 'Ukendt';
+    }
+  
+    const roleId = parseInt(role, 10);
+    return this.roles[roleId] || 'Ukendt'; 
+  }
+  
+  getUserRole(): string | null {
+    return sessionStorage.getItem('role'); 
+  }
+  
 
   isLoggedIn(): boolean {
     return !!sessionStorage.getItem('email');
