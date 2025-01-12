@@ -11,3 +11,7 @@ export interface Jeopardy {
   subjects: string[];         
   grid: JeopardyCell[][];            
 }
+
+
+
+
