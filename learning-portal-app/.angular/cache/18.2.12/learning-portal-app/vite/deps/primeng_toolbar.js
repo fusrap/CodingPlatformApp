@@ -1,15 +1,15 @@
 import {
+  PrimeTemplate,
+  SharedModule
+} from "./chunk-DVEU4MWR.js";
+import "./chunk-Q53QHQGR.js";
+import {
   CommonModule,
   NgClass,
   NgIf,
   NgStyle,
   NgTemplateOutlet
 } from "./chunk-MSQZQWNC.js";
-import {
-  PrimeTemplate,
-  SharedModule
-} from "./chunk-DVEU4MWR.js";
-import "./chunk-Q53QHQGR.js";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -38,8 +38,8 @@ import {
   ɵɵqueryRefresh,
   ɵɵtemplate
 } from "./chunk-KIHTX5Y7.js";
-import "./chunk-5OPE3T2R.js";
 import "./chunk-4N4GOYJH.js";
+import "./chunk-5OPE3T2R.js";
 import "./chunk-FHTVLBLO.js";
 import "./chunk-WDMUDEB6.js";
 

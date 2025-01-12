@@ -1,0 +1,14 @@
+.grid {
+    display: flex;
+  }
+  
+  .col-3 {
+    width: 25%;
+    background-color: #f9f9f9;
+  }
+  
+  .col-9 {
+    width: 75%;
+    overflow-y: auto;
+  }
+  

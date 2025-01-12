@@ -3,12 +3,11 @@ import { Router } from '@angular/router';
 import { MenubarModule } from 'primeng/menubar';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { GamificationService } from '../../services/gamification.service';
+import { ButtonModule } from 'primeng/button';
 
 interface XPResponse {
   totalXP: number;
 }
-
-
 
 @Component({
   selector: 'app-header',
@@ -16,6 +15,7 @@ interface XPResponse {
   imports: [
     MenubarModule,
     ProgressBarModule,
+    ButtonModule
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
@@ -49,7 +49,7 @@ export class HeaderComponent {
       {
         label: 'Kurser',
         icon: 'pi pi-palette',
-        routerLink: '',
+        routerLink: '/courses',
         items: [
           {
             label: 'Nyt kursus', 
@@ -75,6 +75,11 @@ export class HeaderComponent {
         label: 'Brugere',
         icon: 'pi pi-user',
         routerLink: '',
+      },
+      {
+        label: 'Vejledning',
+        icon: 'pi pi-book',
+        routerLink: '/documentation',
       },
       {
         label: 'Log ud',
@@ -106,9 +111,6 @@ export class HeaderComponent {
       },
     });
   }
-  
-  
-
 
   logout() {
     sessionStorage.clear();

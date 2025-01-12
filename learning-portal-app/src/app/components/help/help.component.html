@@ -1,0 +1,257 @@
+<app-header></app-header>
+<div class="grid">
+    <div class="col-3 surface-100 border-right-1 border-gray-300 p-3">
+      <h3>Indhold</h3>
+      <ul class="list-none p-0">
+        <li>
+          <button 
+            pButton 
+            type="button" 
+            class="p-button-link w-full text-left" 
+            (click)="scrollToSection('create-course')">
+            Opret et Kursus
+          </button>
+        </li>
+        <li>
+          <button 
+            pButton 
+            type="button" 
+            class="p-button-link w-full text-left" 
+            (click)="scrollToSection('tilfoj-elementer')">
+            Tilføj Elementer
+          </button>
+        </li>        
+        <li>
+          <button 
+            pButton 
+            type="button" 
+            class="p-button-link w-full text-left" 
+            (click)="scrollToSection('text-element')">
+            Tekst Element
+          </button>
+        </li>
+        <li>
+          <button 
+            pButton 
+            type="button" 
+            class="p-button-link w-full text-left" 
+            (click)="scrollToSection('input-element')">
+            Spørgsmål/Svar Element
+          </button>
+        </li>
+        <li>
+          <button 
+            pButton 
+            type="button" 
+            class="p-button-link w-full text-left" 
+            (click)="scrollToSection('general-usage')">
+            Gem kursus
+          </button>
+        </li>
+        <li class="mt-4">
+            <h5>Jeopardy</h5>
+            <ul class="list-none p-0 pl-3">
+              <li>
+                <button 
+                  pButton 
+                  type="button" 
+                  class="p-button-link w-full text-left" 
+                  (click)="scrollToSection('jeopardy-intro')">
+                  Introduktion
+                </button>
+              </li>
+              <li>
+                <button 
+                  pButton 
+                  type="button" 
+                  class="p-button-link w-full text-left" 
+                  (click)="scrollToSection('jeopardy-create')">
+                  Opret Jeopardy
+                </button>
+              </li>
+              <li>
+                <button 
+                  pButton 
+                  type="button" 
+                  class="p-button-link w-full text-left" 
+                  (click)="scrollToSection('jeopardy-manage')">
+                  Administrer Spil
+                </button>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+    <div class="col-9 p-3 overflow-y-auto" style="max-height: 70vh;">
+      <section id="create-course">
+        <h4>Opret et Kursus</h4>
+        <img src="opret_kursus.png" alt="Opret Kursus Billede" class="w-full mb-3 border-round shadow-2" style="max-width: 60%; height: auto; display: block; margin: 0 auto;"  />
+
+      
+        <p>For at oprette et nyt kursus skal du navigere til "Opret Kursus"-siden i menuen.</p>
+        <p>Følg disse trin:</p>
+        <ol>
+          <li>
+            Klik på <strong>Annullér</strong>-knappen, hvis du vil afbryde oprettelsen af kurset.
+          </li>
+          <li>
+            Klik på <strong>Opret</strong>-knappen for at gemme kurset og gøre det synligt i kursusoversigten.
+          </li>
+          <li>
+            Indtast en passende <strong>titel</strong> for kurset, der beskriver dets formål og indhold.
+          </li>
+          <li>
+            Tilføj en <strong>beskrivelse</strong>, der kort forklarer, hvad kurset handler om.
+          </li>
+        </ol>
+      </section>
+
+      <section id="tilfoj-elementer">
+        <h4>Tilføj Elementer</h4>
+        <img src="opret_elementer.png" alt="Opret Kursus Billede" class="w-full mb-3 border-round shadow-2" style="max-width: 60%; height: auto; display: block; margin: 0 auto;" />
+        <p>Brug denne sektion til at tilføje forskellige typer af elementer til dit kursus. Følg disse trin:</p>
+        <ol>
+          <li>
+            Vælg en <strong>elementtype</strong> fra dropdown-menuen (f.eks. Svar/Spørgsmål).
+          </li>
+          <li>
+            Klik på <strong>Tilføj-knappen</strong> for at inkludere elementet i kurset.
+          </li>
+          <li>
+            Hvis du har brug for hjælp, klik på <strong>Hjælp-knappen</strong>.
+          </li>
+          <li>
+            Når du er færdig, klik på <strong>Gem kursus</strong> for at gemme alle tilføjelser.
+          </li>
+          <li>
+            Klik på <strong>Ret kursus detaljer</strong> for at ændre kursustitlen eller beskrivelsen.
+          </li>
+          <li>
+            Klik på <strong>Afbryd</strong> for at forlade uden at gemme ændringer.
+          </li>
+        </ol>
+      </section>
+      
+      <section id="text-element">
+        <h4>Tekst Element</h4>
+        <img 
+          src="tekst_element.png" 
+          alt="Tekst Element Billede" 
+          class="w-full mb-3 border-round shadow-2" 
+          style="max-width: 60%; height: auto; display: block; margin: 0 auto;" 
+        />
+        <p>
+          Tekstfeltet giver dig mulighed for at tilføje længere tekstblokke til dit kursus. Det kan bruges til at præsentere baggrundsinformation, teori, praktiske eksempler eller vejledning for kursusdeltagerne. Dette gør det muligt at strukturere kurset på en måde, der er informativ og engagerende.
+        </p>
+        <h5>Anvendelser:</h5>
+        <ul>
+          <li><strong>Baggrundsinformation:</strong> Forklar kursusemner som koncepter eller historiske sammenhænge.</li>
+          <li><strong>Teori:</strong> Introducer nøglekoncepter eller terminologi, der er nødvendig for forståelse.</li>
+          <li><strong>Instruktioner:</strong> Forklar, hvordan deltagerne skal bruge eller forstå andre elementer i kurset.</li>
+          <li><strong>Praktiske Eksempler:</strong> Demonstrér ideer gennem tekst og eksempler som kodeblokke eller scenarier.</li>
+        </ul>
+        <h5>Eksempel på Brug:</h5>
+        <p><strong>Baggrundsviden:</strong> Python er et programmeringssprog, der bruges inden for områder som dataanalyse, kunstig intelligens og webudvikling. For at skrive dynamiske programmer introduceres kontrolstrukturer som for-loops, der bruges til gentagne opgaver.</p>
+        <h5>Kodeeksempel:</h5>
+        <pre>
+          <code>
+          # Eksempel på en liste i Python
+          my_list = [1, 2, 3, 4]
+          for item in my_list:
+              print(item)
+          </code>
+        </pre>
+      </section>
+      
+      <section id="input-element">
+        <h4>Input Element</h4>
+        <img 
+          src="input_element.png" 
+          alt="Spørgsmål/Svar Element Billede" 
+          class="w-full mb-3 border-round shadow-2" 
+          style="max-width: 50%; height: auto; display: block; margin: 0 auto;" 
+        />
+        <p>
+          Input-elementet bruges til at tilføje spørgsmål og deres tilhørende svar til dit kursus. Dette element er interaktivt og tillader deltagerne at besvare spørgsmål eller gennemgå svar for læring.
+        </p>
+        <h5>Anvendelser:</h5>
+        <ul>
+          <li><strong>Test deltagernes viden:</strong> Brug spørgsmålene til at teste, om deltagerne har forstået de vigtigste koncepter.</li>
+          <li><strong>Øvelse og repetition:</strong> Hjælp deltagerne med at styrke deres viden gennem interaktive øvelser.</li>
+          <li><strong>Giv feedback:</strong> Sørg for, at deltagerne kan sammenligne deres svar med de korrekte svar og lære af deres fejl.</li>
+        </ul>
+        <h5>Eksempel på Brug:</h5>
+        <p>
+          <strong>Spørgsmål:</strong> Hvad kaldes en datatype i Python, der bruges til at gemme en sekvens af elementer?<br />
+          <strong>Svar:</strong> list
+        </p>
+        <h5>Instruktioner:</h5>
+        <ol>
+          <li>
+            Indtast et <strong>spørgsmål</strong> i det første inputfelt.
+          </li>
+          <li>
+            Tilføj det korrekte <strong>svar</strong> i det andet inputfelt.
+          </li>
+          <li>
+            Klik på <strong>Færdig</strong> (grøn knap) for at gemme spørgsmålet og svaret.
+          </li>
+          <li>
+            Klik på <strong>Delete</strong> (rød knap) for at fjerne spørgsmålet fra kurset.
+          </li>
+        </ol>
+      </section>
+      
+      <section id="general-usage">
+        <h4>General Usage</h4>
+        <p>
+          Systemet er designet til at være brugervenligt og intuitivt. Her er en oversigt over de to centrale processer:
+        </p>
+        <h5>1. Opret Kursus</h5>
+        <p>
+          Oprettelsen af et kursus er nem og kræver kun udfyldelse af titel, beskrivelse og tilføjelse af nødvendige elementer som tekstfelter eller spørgsmål. 
+          Se eksemplet på formularen i billedet nedenfor:
+        </p>
+        <img 
+        src="opret_python_kusus.png" 
+        alt="Opret Kursus Billede" 
+        class="mb-3 border-round shadow-2" 
+        style="max-width: 60%; height: auto; display: block; margin: 0 auto;" 
+      />
+      
+        <h5>2. Vis Kursus</h5>
+        <p>
+          Når kurset er oprettet, vises det til deltagerne med en tydelig struktur. Baggrundsinformation, teori og interaktive spørgsmål guider deltagerne gennem læringsprocessen. 
+          Et eksempel kan ses i billedet nedenfor:
+        </p>
+        <img 
+          src="view_python_kursus.png" 
+          alt="Vis Kursus Billede" 
+          class="w-full mb-3 border-round shadow-2" 
+          style="max-width: 60%; height: auto; display: block; margin: 0 auto;" 
+        />
+      </section>
+
+      <section id="jeopardy-intro">
+        <h4>Introduktion</h4>
+        <p>Jeopardy-spillet er en interaktiv aktivitet, der engagerer kursusdeltagerne gennem spørgsmål og kategorier.</p>
+      </section>
+      <section id="jeopardy-create">
+        <h4>Opret Jeopardy</h4>
+        <p>For at oprette et nyt Jeopardy-spil skal du navigere til "Opret Jeopardy"-siden.</p>
+        <ol>
+          <li>Vælg kategorier og spørgsmål.</li>
+          <li>Tilføj pointværdier for hvert spørgsmål.</li>
+          <li>Klik på <strong>Gem</strong> for at færdiggøre spillet.</li>
+        </ol>
+      </section>
+      <section id="jeopardy-manage">
+        <h4>Administrer Spil</h4>
+        <p>Administrer eksisterende spil, rediger spørgsmål eller se tidligere resultater.</p>
+      </section>
+      
+    </div>
+  </div>
+
+

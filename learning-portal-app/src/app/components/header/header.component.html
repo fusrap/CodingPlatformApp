@@ -1,14 +1,18 @@
 <p-menubar [model]="items">
   <ng-template pTemplate="end">
-    <div class="user-xp-container">
-      <span>Level {{ currentLevel }}</span>
-      <p-progressBar [value]="progress"></p-progressBar>
-      <span>{{ remainingXP }}/1000 XP</span>
-    </div>
-    @if (userRole) {
-      <div>
-        <span>{{ userRole }}</span>
+    <div class="end-content p-d-flex p-ai-center">
+      <div class="user-xp-container p-mr-3">
+        <span>Level {{ currentLevel }}</span>
+        <p-progressBar [value]="progress"></p-progressBar>
+        <span>{{ remainingXP }}/1000 XP</span>
+        <p-button  
+        type="button" 
+        icon="pi pi-user" 
+        iconPos="top" 
+        label="Min Side"
+        [routerLink]="['/mypage']">
+      </p-button>
       </div>
-    }
+    </div>
   </ng-template>
 </p-menubar>

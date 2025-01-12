@@ -1,0 +1,104 @@
+<app-header></app-header>
+
+<div class="grid p-4 h-full align-items-stretch">
+  <div class="col-12 md:col-6 flex align-items-stretch">
+    <p-card header="XP Oversigt" class="w-full h-full">
+      <div class="xp-chart-container">
+        <div class="chart-wrapper">
+          <p-chart type="doughnut" [data]="chartData" [options]="chartOptions"></p-chart>
+          <div class="level-indicator">
+            <span>{{ currentLevel }}</span>
+          </div>
+        </div>
+        <div class="xp-details mt-3">
+          <p>Du mangler <strong>{{ 1000 - remainingXP }} XP</strong> for at nå level {{ currentLevel + 1 }}</p>
+        </div>
+        <div class="xp-motivation mt-3">
+          <p>Fortsæt det gode arbejde for at nå dit næste mål!</p>
+        </div>
+      </div>
+    </p-card>
+  </div>
+
+  <div class="col-12 md:col-6 flex align-items-stretch">
+    <p-card header="Brugeroplysninger" class="w-full h-full">
+      <div class="formgrid grid">
+        <div class="field col-12">
+          <label for="fullName">Navn</label>
+          <input id="fullName" type="text" [value]="userInfo?.fullName || 'Ikke angivet'" readonly
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+        </div>
+        <div class="field col-12">
+          <label for="email">Email</label>
+          <input id="email" type="text" [value]="userInfo?.email || 'Ikke angivet'" readonly
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+        </div>
+        <div class="field col-12">
+          <label for="role">Rolle</label>
+          <input
+            id="role"
+            type="text"
+            [value]="userRoleDescription || 'Ukendt'"
+            readonly
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          />
+        </div>
+        <div class="field col-12">
+          <p-button
+          label="Ret detaljer" (onClick)="editDetails()"></p-button>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>
+
+  <div class="col-12">
+    <p-card header="Tilmeldte Kurser">
+      <p-table
+        [value]="enrolledCourses"
+        [scrollable]="true"
+        [scrollHeight]="'400px'"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        selectionMode="single"
+        [(selection)]="selectedCourse"
+        (onRowSelect)="navigateToCourse($event)"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Titel</th>
+            <th>Beskrivelse</th>
+            <th>Oprettet</th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-course>
+          <tr [pSelectableRow]="course">
+            <td>{{ course.courseTitle }}</td>
+            <td>{{ course.courseDescription || 'Ingen beskrivelse' }}</td>
+            <td>{{ course.created || 'Ukendt' }}</td>
+            <td>
+              <p-button
+                label="Afmeld"
+                severity="warning"
+                (click)="unenrollFromCourse(course)"
+              ></p-button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
+
+<p-dialog
+  [(visible)]="isDialogVisible"
+  [modal]="true"
+  [closable]="true"
+  [dismissableMask]="true"
+>
+  <div class="p-d-flex p-ai-center p-jc-center flex-column">
+    <img src="/sad_face.webp" alt="Ked af det smiley" class="sad-image mb-3" />
+    <h2 class="centered-text">Beklager... Funktionen til at rette detaljer er endnu ikke implementeret.</h2>
+  </div>
+</p-dialog>
+
+

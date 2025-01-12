@@ -12,11 +12,11 @@ export interface Course extends CoursePostData {
     id: number;
 }
 
-
-export interface ExtendedCourse {
+  export interface ExtendedCourse {
+    id: number;
     courseTitle: string;
     courseDescription: string;
-    elements: ExtendedContentElement[];
-    id: number;
+    elements?: any[]; 
+    enrolled?: boolean; 
+    completed?: boolean;
   }
-  
